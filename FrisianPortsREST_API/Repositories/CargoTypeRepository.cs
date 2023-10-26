@@ -7,7 +7,7 @@
             throw new NotImplementedException();
         }
 
-        public int Delete(CargoTypeRepository itemToRemove)
+        public int Delete(int itemToRemove)
         {
             throw new NotImplementedException();
         }
@@ -17,7 +17,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<List<CargoTypeRepository>> GetById()
+        public Task<List<CargoTypeRepository>> GetById(int idOfItem)
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@
             throw new NotImplementedException();
         }
 
-        public int Delete(Route itemToRemove)
+        public int Delete(int itemToRemove)
         {
             throw new NotImplementedException();
         }
@@ -17,7 +17,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<List<Route>> GetById()
+        public Task<List<Route>> GetById(int idOfItem)
         {
             throw new NotImplementedException();
         }

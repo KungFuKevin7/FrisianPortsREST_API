@@ -9,7 +9,7 @@ namespace FrisianPortsREST_API.Repositories
             throw new NotImplementedException();
         }
 
-        public int Delete(Transport itemToRemove)
+        public int Delete(int itemToRemove)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@ namespace FrisianPortsREST_API.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<List<Transport>> GetById()
+        public Task<List<Transport>> GetById(int idOfItem)
         {
             throw new NotImplementedException();
         }

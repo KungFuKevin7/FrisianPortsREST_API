@@ -5,12 +5,12 @@
     {
         Task<List<T>> Get();
 
-        Task<List<T>> GetById();
+        Task<List<T>> GetById(int idOfItem);
 
         Task<int> Add(T itemToAdd);
 
         Task<int> Update(T itemToUpdate);
 
-        int Delete(T itemToRemove);
+        int Delete(int idOfItemToDelete);
     }
 }
