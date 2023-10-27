@@ -1,32 +1,97 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using Dapper;
+using FrisianPortsREST_API.Models;
+using MySql.Data.MySqlClient;
 
 namespace FrisianPortsREST_API.Repositories
 {
     public class UserRepository : IRepository<Users>
     {
-        public Task<int> Add(Users itemToAdd)
+
+        public static MySqlConnection connection = DBConnection.getConnection();
+
+        public async Task<int> Add(Users itemToAdd)
         {
-            throw new NotImplementedException();
+            const string addQuery = @$"INSERT INTO USERS
+                            (EMAIL, PASSWORD, FIRSTNAME, SURNAME, PERMISSION_ADD_CARGO)
+                            VALUES
+                            (@Email, @Password, @FirstName, @SurName, @PermissionAddCargo);";
+
+            int success = await connection.ExecuteAsync(addQuery,
+               new
+               {
+                   Email = itemToAdd.Email,
+                   Password = itemToAdd.Password,
+                   FirstName = itemToAdd.FirstName,
+                   SurName = itemToAdd.SurName,
+                   PermissionAddCargo = itemToAdd.Permission_Add_Cargo
+               });
+
+            connection.Close();
+            return success;
         }
 
         public int Delete(int itemToRemove)
         {
-            throw new NotImplementedException();
+            const string query = @$"DELETE FROM USERS
+                                    WHERE USER_ID = @UserId;";
+
+            int success = connection.Execute(query,
+                new
+                {
+                    UserId = itemToRemove
+                });
+            connection.Close();
+            return success;
         }
 
-        public Task<List<Users>> Get()
+        public async Task<List<Users>> Get()
         {
-            throw new NotImplementedException();
+            const string getQuery = @$"SELECT * FROM USERS;";
+
+            var list = await connection.QueryAsync<Users>(getQuery);
+            connection.Close();
+            return list.ToList();
         }
 
-        public Task<List<Users>> GetById(int idOfItem)
+        public async Task<List<Users>> GetById(int idOfItem)
         {
-            throw new NotImplementedException();
+            const string getQuery = @$"SELECT * FROM USERS
+                                       WHERE USER_ID = @UserId;";
+
+            var list = await connection.QueryAsync<Users>(getQuery, 
+                new {
+                    UserId = idOfItem
+                });
+
+            connection.Close();
+            return list.ToList();
         }
 
-        public Task<int> Update(Users itemToUpdate)
+        public async Task<int> Update(Users userUpdate)
         {
-            throw new NotImplementedException();
+            const string updateQuery = @$"UPDATE USERS
+                                       SET 
+                                       EMAIL = @Email,
+                                       PASSWORD = @Password,
+                                       FIRSTNAME = @FirstName,
+                                       SURNAME = @SurName,
+                                       PERMISSION_ADD_CARGO = @Permission
+                                       WHERE USER_ID = @UserId;";
+
+            int success = await connection.ExecuteAsync(updateQuery,
+               new
+               {
+                   Email = userUpdate.Email,
+                   Password = userUpdate.Password,
+                   FirstName = userUpdate.FirstName,
+                   SurName = userUpdate.SurName,
+                   Permission = userUpdate.Permission_Add_Cargo,
+                   UserId = userUpdate.User_Id
+               });
+
+            connection.Close();
+
+            return success;
         }
     }
 }

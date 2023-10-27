@@ -1,32 +1,85 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using Dapper;
+using FrisianPortsREST_API.Models;
+using MySql.Data.MySqlClient;
 
 namespace FrisianPortsREST_API.Repositories
 {
     public class TransportRepository : IRepository<Transport>
     {
-        public Task<int> Add(Transport itemToAdd)
+
+        public static MySqlConnection connection = DBConnection.getConnection();
+
+        public async Task<int> Add(Transport transportToAdd)
         {
-            throw new NotImplementedException();
+            const string addQuery = @$"INSERT INTO TRANSPORT
+                            (CARGO_TRANSPORT_ID, DEPARTURE_DATE)
+                            VALUES
+                            (@CargoTransportId, @DepartureDate);";
+
+            int success = await connection.ExecuteAsync(addQuery,
+               new
+               {
+                   CargoTransportId = transportToAdd.Cargo_Transport_Id,
+                   DepartureDate = transportToAdd.DepartureDate
+               });
+            connection.Close();
+            return success;
         }
 
-        public int Delete(int itemToRemove)
+        public int Delete(int idToRemove)
         {
-            throw new NotImplementedException();
+            const string query = @$"DELETE FROM TRANSPORT
+                                    WHERE TRANSPORT_ID = @TransportId;";
+
+            int success = connection.Execute(query,
+                new
+                {
+                    TransportId = idToRemove
+                });
+            connection.Close();
+            return success;
         }
 
-        public Task<List<Transport>> Get()
+        public async Task<List<Transport>> Get()
         {
-            throw new NotImplementedException();
+            const string getQuery = @$"SELECT * FROM ROUTE;";
+
+            var list = await connection.QueryAsync<Transport>(getQuery);
+            connection.Close();
+            return list.ToList();
         }
 
-        public Task<List<Transport>> GetById(int idOfItem)
+        public async Task<List<Transport>> GetById(int idOfItem)
         {
-            throw new NotImplementedException();
+            const string getQuery = @$"SELECT * FROM TRANSPORT
+                                       WHERE TRANSPORT_ID = @TransportId;";
+
+            var list = await connection.QueryAsync<Transport>(getQuery,
+                new { 
+                    TransportId = idOfItem
+                });
+            connection.Close();
+            return list.ToList();
         }
 
-        public Task<int> Update(Transport itemToUpdate)
+        public async Task<int> Update(Transport itemToUpdate)
         {
-            throw new NotImplementedException();
+            const string updateQuery = @$"UPDATE TRANSPORT
+                                       SET 
+                                       CARGO_TRANSPORT_ID = @CargoTransportId,
+                                       DEPARTURE_DATE = @DepartureDate
+                                       WHERE TRANSPORT_ID = @TransportId;";
+
+            int success = await connection.ExecuteAsync(updateQuery,
+               new
+               {
+                   CargoTransportId = itemToUpdate.Cargo_Transport_Id,
+                   DepartureDate = itemToUpdate.DepartureDate,
+                   TransportId = itemToUpdate.Transport_Id
+               });
+            connection.Close();
+
+            return success;
         }
     }
 }
