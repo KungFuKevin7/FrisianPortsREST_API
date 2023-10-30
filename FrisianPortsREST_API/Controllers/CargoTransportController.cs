@@ -18,7 +18,7 @@ namespace FrisianPortsREST_API.Controllers
             return Ok(cargoTransports);
         }
 
-        [HttpGet("{cargo-transport-id}")]   //URI: api/port/{portId}
+        [HttpGet("{cargoTransportId}")]   //URI: api/port/{portId}
         public async Task<IActionResult> Get(int cargoTransportId)
         {
             var cargoTransports = await cargoTransportRepo.GetById(cargoTransportId);
@@ -36,6 +36,27 @@ namespace FrisianPortsREST_API.Controllers
             else
             {
                 return BadRequest();    //TODO: Return Proper error
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int cargoTransportId) 
+        {
+            int success = cargoTransportRepo.Delete(cargoTransportId);
+            return Ok(success);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody]CargoTransport cargoTr) 
+        {
+            int success = await cargoTransportRepo.Update(cargoTr);
+            if (success > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
             }
         }
     }

@@ -23,5 +23,38 @@ namespace FrisianPortsREST_API.Controllers
             return Ok(transports);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]Transport transport) 
+        {
+            var addSuccess = await TransportRepo.Add(transport);
+            if (addSuccess > 0)
+            {
+                return Ok(addSuccess);
+            }
+            else {
+                return BadRequest(); 
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int transportId)
+        {
+            var removeSuccess = TransportRepo.Delete(transportId);
+            return Ok(removeSuccess);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody]Transport transport) 
+        {
+            var updateSuccess = await TransportRepo.Update(transport);
+            if (updateSuccess > 0)
+            {
+                return Ok();
+            }
+            else 
+            {
+                return BadRequest();
+            }
+        }
     }
 }
