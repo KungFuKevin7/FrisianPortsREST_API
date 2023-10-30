@@ -19,11 +19,11 @@ namespace FrisianPortsREST_API.Controllers
         }
 
         
-        [HttpGet("{portId}")]   //URI: api/port/{portId}
+        [HttpGet("{portId}")]   //URI: api/port/{port-id}
         public async Task<IActionResult> Get(int portId)
         {
-            var ports = await portRepo.GetById(portId);
-            return Ok(ports);
+            var port = await portRepo.GetById(portId);
+            return Ok(port);
         }
 
         [HttpPost]
@@ -37,8 +37,7 @@ namespace FrisianPortsREST_API.Controllers
             else
             {
                 return BadRequest();
-            }
-            
+            }   
         }
 
         [HttpPut]

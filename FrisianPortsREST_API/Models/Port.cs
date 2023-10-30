@@ -12,7 +12,7 @@ namespace FrisianPortsREST_API.Models
 
         public string Latitude { get; set; }
 
-        public string Longtitude { get; set; }
+        public string Longitude { get; set; }
 
     }
 }

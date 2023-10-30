@@ -17,30 +17,30 @@ namespace FrisianPortsREST_API.Repositories
             return list.ToList();
         }
 
-        public async Task<List<Port>> GetById(int portId)
+        public async Task<Port> GetById(int portId)
         {
             const string query = @$"SELECT * FROM Port
                                     WHERE PORT_ID = @portId;";
-            var list = await connection.QueryAsync<Port>(query,
+            var port = await connection.QuerySingleAsync<Port>(query,
                 new {
                     portId = portId
                 });
             connection.Close();
-            return list.ToList();
+            return port;
         }
 
         public async Task<int> Add(Port portToAdd)
         {
             const string query = $@"INSERT INTO Port
-                                    (PORT_NAME, PORT_LOCATION, LATITUDE, LONGTITUDE)
-                                    VALUES (@PortName,@PortLocation, @Latitude, @Longtitude);";
+                                    (PORT_NAME, PORT_LOCATION, LATITUDE, LONGITUDE)
+                                    VALUES (@PortName,@PortLocation, @Latitude, @Longitude);";
 
             int success = await connection.ExecuteAsync(query, 
                 new { 
                     PortName = portToAdd.Port_Name,
                     PortLocation = portToAdd.Port_Location,
                     Latitude = portToAdd.Latitude,
-                    Longtitude = portToAdd.Longtitude
+                    Longitude = portToAdd.Longitude
                 });
             connection.Close();
             return success;
@@ -66,7 +66,7 @@ namespace FrisianPortsREST_API.Repositories
                                     SET PORT_NAME = @PortName,
                                         PORT_LOCATION = @PortLocation,
                                         LATITUDE = @Latitude,
-                                        LONGTITUDE = @Longtitude
+                                        LONGITUDE = @Longitude
                                     WHERE PORT_ID = @PortId";
 
             int success = await connection.ExecuteAsync(query,
@@ -74,7 +74,7 @@ namespace FrisianPortsREST_API.Repositories
                     PortName = portToUpdate.Port_Name,
                     PortLocation = portToUpdate.Port_Location,
                     Latitude = portToUpdate.Latitude,
-                    Longtitude = portToUpdate.Longtitude,
+                    Longitude = portToUpdate.Longitude,
                     PortId = portToUpdate.Port_Id
                 });
             connection.Close();

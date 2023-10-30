@@ -50,17 +50,17 @@ namespace FrisianPortsREST_API.Repositories
             return list.ToList();
         }
 
-        public async Task<List<CargoTransport>> GetById(int idOfCargoTransport)
+        public async Task<CargoTransport> GetById(int idOfCargoTransport)
         {
             const string query = @$"SELECT * FROM CargoTransport
                                     WHERE CARGO_TRANSPORT_ID = @CargoTransportId";
-            var list = await connection.QueryAsync<CargoTransport>(query,
+            var cargoTransport = await connection.QuerySingleAsync<CargoTransport>(query,
                 new
                 {
                     cargoId = idOfCargoTransport
                 });
             connection.Close();
-            return list.ToList();
+            return cargoTransport;
         }
 
         public async Task<int> Update(CargoTransport cargoTransportUpdate)

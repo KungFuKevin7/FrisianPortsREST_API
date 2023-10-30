@@ -53,18 +53,18 @@ namespace FrisianPortsREST_API.Repositories
             return list.ToList();
         }
 
-        public async Task<List<Users>> GetById(int idOfItem)
+        public async Task<Users> GetById(int idOfItem)
         {
             const string getQuery = @$"SELECT * FROM USERS
                                        WHERE USER_ID = @UserId;";
 
-            var list = await connection.QueryAsync<Users>(getQuery, 
+            var user = await connection.QuerySingleAsync<Users>(getQuery, 
                 new {
                     UserId = idOfItem
                 });
 
             connection.Close();
-            return list.ToList();
+            return user;
         }
 
         public async Task<int> Update(Users userUpdate)

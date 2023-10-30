@@ -50,17 +50,17 @@ namespace FrisianPortsREST_API.Repositories
             return list.ToList();
         }
 
-        public async Task<List<Route>> GetById(int idOfItem)
+        public async Task<Route> GetById(int idOfItem)
         {
             const string getQuery = @$"SELECT * FROM ROUTE
                                        WHERE ROUTE_ID = @RouteId;";
 
-            var list = await connection.QueryAsync<Route>(getQuery,
+            var route = await connection.QuerySingleAsync<Route>(getQuery,
                 new { 
                     RouteId = idOfItem
                 });
             connection.Close();
-            return list.ToList();
+            return route;
         }
 
         public async Task<int> Update(Route itemToUpdate)

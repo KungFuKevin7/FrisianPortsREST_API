@@ -5,7 +5,7 @@
     {
         Task<List<T>> Get();
 
-        Task<List<T>> GetById(int idOfItem);
+        Task<T> GetById(int idOfItem);
 
         Task<int> Add(T itemToAdd);
 

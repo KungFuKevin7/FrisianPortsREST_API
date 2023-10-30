@@ -8,7 +8,7 @@ namespace FrisianPortsREST_API.Models
 
         public int CargoTransportId { get; set; }
 
-        public int Frequency { get; set; }
+        public string Frequency { get; set; }
 
         public DateTime DateStarted { get; set; }
 
