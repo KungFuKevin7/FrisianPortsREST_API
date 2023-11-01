@@ -15,16 +15,17 @@ namespace FrisianPortsREST_API.Repositories
             const string addQuery = @$"INSERT INTO ROUTE
                             (DEPARTURE_PORT_ID, ARRIVAL_PORT_ID)
                             VALUES
-                            (@DeparturePortId, @ArrivalPortId);";
+                            (@DeparturePortId, @ArrivalPortId);
+                            SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(addQuery,
+            int newId = await connection.ExecuteScalarAsync<int>(addQuery,
                new
                {
                    DeparturePortId = routeToAdd.Departure_Port_Id,
                    ArrivalPortId = routeToAdd.Arrival_Port_Id
                });
             connection.Close();
-            return success;
+            return newId;
         }
 
         public int Delete(int itemToRemove)

@@ -14,50 +14,106 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var routes = await routeRepo.Get();
-            return Ok(routes);
+            try
+            {
+                var routes = await routeRepo.Get();
+                return Ok(routes);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet("{routeId}")]   //URI: api/port/{portId}
         public async Task<IActionResult> Get(int routeId)
         {
-            var route = await routeRepo.GetById(routeId);
-            return Ok(route);
+            try
+            {
+                var route = await routeRepo.GetById(routeId);
+                return Ok(route);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Route route)
         {
-            int success = await routeRepo.Add(route);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (route == null)
+                {
+                    return BadRequest();
+                }
+
+                int idOfNewRoute = await routeRepo.Add(route);
+                route.Route_Id = idOfNewRoute;
+                
+                if (idOfNewRoute > 0)
+                {
+                    return StatusCode(StatusCodes.Status201Created, route);
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
+
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();    //TODO: Return Proper error
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
         [HttpDelete]
         public IActionResult Delete(int routeId)
         {
-            int success = routeRepo.Delete(routeId);
-            return Ok(success);
+            try
+            {
+                int success = routeRepo.Delete(routeId);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else 
+                {
+                    throw new Exception("Nothing was deleted");
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Route routeUpdate)
         {
-            int success = await routeRepo.Update(routeUpdate);
-            if (success > 0)
+            try
             {
-                return Ok();
+                int success = await routeRepo.Update(routeUpdate);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
     }

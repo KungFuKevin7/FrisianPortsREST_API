@@ -13,50 +13,122 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var cargoItems = await cargoRepo.Get();
-            return Ok(cargoItems);
+            try
+            {
+                var cargoItems = await cargoRepo.Get();
+            
+                if (cargoItems == null)
+                {
+                    return NotFound();
+                }
+            
+                return Ok(cargoItems);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpGet("{cargoId}")]   //URI: api/port/{portId}
         public async Task<IActionResult> Get(int cargoId)
         {
-            var cargoItem = await cargoRepo.GetById(cargoId);
-            return Ok(cargoItem);
+            try
+            {
+                var cargoItem = await cargoRepo.GetById(cargoId);
+
+                if (cargoItem == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cargoItem);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] Cargo cargoToAdd)
         {
-            int success = await cargoRepo.Add(cargoToAdd);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (cargoToAdd == null)
+                {
+                    return BadRequest();
+                }
+
+                int createdId = await cargoRepo.Add(cargoToAdd);
+                if (createdId > 0)
+                {
+                   cargoToAdd.Cargo_Id = createdId;
+                   return StatusCode(StatusCodes.Status201Created,cargoToAdd);
+                }
+                else
+                {
+                    throw new Exception("Nothing was Added");
+                }
+     
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
         [HttpDelete]
-        public IActionResult Delete(int cargoId)
+        public IActionResult Delete(int Id)
         {
-            int success = cargoRepo.Delete(cargoId);
-            return Ok(success);
+            try
+            {
+                int success = cargoRepo.Delete(Id);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Cargo cargo)
         {
-            int success = await cargoRepo.Update(cargo);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (cargo == null) 
+                {
+                    return BadRequest();
+                }
+                
+                int success = await cargoRepo.Update(cargo);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else 
+                {
+                    throw new Exception("Nothing was updated");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
     }
 }

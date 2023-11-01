@@ -6,6 +6,6 @@
 
         public int Cargo_Transport_Id { get; set; }
 
-        public DateTime DepartureDate { get; set; }
+        public DateTime Departure_Date { get; set; }
     }
 }

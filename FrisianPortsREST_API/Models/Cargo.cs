@@ -10,6 +10,6 @@
     
         public int Cargo_Type_Id { get; set; }
 
-        public string Transport_Id { get; set; }
+        public int Transport_Id { get; set; }
     }
 }

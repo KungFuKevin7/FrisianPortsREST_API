@@ -11,24 +11,24 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Add(CargoType cargoTypeToAdd)
         {
-            const string addQuery = @$"INSERT INTO CARGO_TYPE
-                            (CARGO_TYPE_ID, CARGO_TYPE_NAME)
+            const string addQuery = @$"INSERT INTO CARGOTYPE
+                            (CARGO_TYPE_NAME)
                             VALUES
-                            (@CargoTypeId, @CargoTypeName)";
+                            (@CargoTypeName);
+                            SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(addQuery,
+            int idNewItem = await connection.ExecuteScalarAsync<int>(addQuery,
                new
                {
-                   CargoTypeId = cargoTypeToAdd.Cargo_Type_Id,
                    CargoTypeName = cargoTypeToAdd.Cargo_Type_Name
                });
             connection.Close();
-            return success;
+            return idNewItem;
         }
 
         public int Delete(int idOfCargoType)
         {
-            const string query = @$"DELETE FROM CARGO_TYPE
+            const string query = @$"DELETE FROM CARGOTYPE
                                        WHERE CARGO_TYPE_ID = @CargoTypeId";
 
             int success = connection.Execute(query,
@@ -42,7 +42,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<CargoType>> Get()
         {
-            const string getQuery = @$"SELECT * FROM CARGO_TYPE";
+            const string getQuery = @$"SELECT * FROM CARGOTYPE";
 
             var list = await connection.QueryAsync<CargoType>(getQuery);
             connection.Close();
@@ -51,7 +51,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<CargoType> GetById(int idOfItem)
         {
-            const string query = @$"SELECT * FROM CARGO_TYPE
+            const string query = @$"SELECT * FROM CARGOTYPE
                                     WHERE CARGO_TYPE_ID = @CargoTypeId";
 
             var cargoType = await connection.QuerySingleAsync<CargoType>(query,
@@ -64,7 +64,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(CargoType itemToUpdate)
         {
-            const string updateQuery = @$"UPDATE CARGO_TYPE
+            const string updateQuery = @$"UPDATE CARGOTYPE
                                        SET 
                                        CARGO_TYPE_NAME = @CargoTypeName
                                        WHERE CARGO_TYPE_ID = @CargoTypeId";

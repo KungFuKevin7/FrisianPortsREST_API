@@ -12,9 +12,10 @@ namespace FrisianPortsREST_API.Repositories
         {
             string query = @$"INSERT INTO Cargo 
                              (CARGO_DESCRIPTION, WEIGHT_IN_TONNES, CARGO_TYPE_ID, TRANSPORT_ID)
-                             VALUES (@cargoDescription, @weightInTonnes, @cargoTypeId, @transportId)";
+                             VALUES (@cargoDescription, @weightInTonnes, @cargoTypeId, @transportId);
+                             SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(query,
+            int createdId = await connection.ExecuteScalarAsync<int>(query,
                 new
                 {
                     cargoDescription = cargoToAdd.Cargo_Description,
@@ -23,7 +24,7 @@ namespace FrisianPortsREST_API.Repositories
                     transportId = cargoToAdd.Transport_Id
                 });
             connection.Close();
-            return success;
+            return createdId;
         }
 
         public int Delete(int idOfCargoToRemove)

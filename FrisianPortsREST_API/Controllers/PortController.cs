@@ -14,52 +14,119 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() 
         {
-            var ports = await portRepo.Get();
-            return Ok(ports);
+            try
+            {
+                var ports = await portRepo.Get();
+
+                if (ports == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(ports);
+            
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         
         [HttpGet("{portId}")]   //URI: api/port/{port-id}
-        public async Task<IActionResult> Get(int portId)
+        public async Task<IActionResult> GetById(int portId)
         {
-            var port = await portRepo.GetById(portId);
-            return Ok(port);
+            try
+            {
+                var port = await portRepo.GetById(portId);
+                if (port == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(port);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Port port)
         {
-            int success = await portRepo.Add(port);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (port == null)
+                {
+                    return BadRequest("port was null");
+                }
+
+                var createdPort = await portRepo.Add(port);
+
+                if (createdPort != 0)
+                {
+                    port.Port_Id = createdPort;
+                    return StatusCode(StatusCodes.Status201Created, port);
+                }
+                    
+                else
+                {
+                    throw new Exception("Nothing was added");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
-            }   
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Port port)
         {
-            int success = await portRepo.Update(port);
-            if (success > 0)
+            try
             {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+                if (port == null) 
+                {
+                    return BadRequest();
+                }
 
+                int success = await portRepo.Update(port);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpDelete]
         public IActionResult Delete(int portId)
         {
-            int success =  portRepo.Delete(portId);
-            return Ok(success);
+            try
+            {
+                int success =  portRepo.Delete(portId);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else 
+                {
+                    throw new Exception("Nothing was deleted");
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
     }
 }

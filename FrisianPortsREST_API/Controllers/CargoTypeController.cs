@@ -13,50 +13,123 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var cargoTypes = await cargoTypeRepo.Get();
-            return Ok(cargoTypes);
+            try
+            {
+                var cargoTypes = await cargoTypeRepo.Get();
+                
+                if (cargoTypes == null)
+                {
+                    return NotFound();
+                }
+                
+                return Ok(cargoTypes);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpGet("{cargoTypeId}")]   //URI: api/port/{portId}
         public async Task<IActionResult> Get(int cargoTypeId)
         {
-            var cargoType = await cargoTypeRepo.GetById(cargoTypeId);
-            return Ok(cargoType);
+            try
+            {
+                var cargoType = await cargoTypeRepo.GetById(cargoTypeId);
+            
+                if (cargoType == null)
+                {
+                    return NotFound();
+                }
+            
+                return Ok(cargoType);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]CargoType cargoType)
         {
-            int success = await cargoTypeRepo.Add(cargoType);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (cargoType == null)
+                {
+                    return BadRequest();
+                }
+
+                int createdId = await cargoTypeRepo.Add(cargoType);
+                if (createdId > 0)
+                {
+                    cargoType.Cargo_Type_Id = createdId;
+                    return StatusCode(StatusCodes.Status201Created, cargoType);  
+                }
+                else
+                {
+                    throw new Exception("Nothing was added");
+                }
+
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();    //TODO: Return Proper error
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
         [HttpDelete]
         public IActionResult Delete(int cargoTypeId)
         {
-            int success = cargoTypeRepo.Delete(cargoTypeId);
-            return Ok(success);
+            try
+            {
+                int success = cargoTypeRepo.Delete(cargoTypeId);
+                if (success > 0) 
+                {
+                    return NoContent();  
+                }
+                else
+                {
+                    throw new Exception("Nothing was deleted");
+                }
+                
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]CargoType cargoType)
         {
-            int success = await cargoTypeRepo.Update(cargoType);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (cargoType == null) 
+                { 
+                    return BadRequest(); 
+                }
+
+                int success = await cargoTypeRepo.Update(cargoType);
+                
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
     }
 }

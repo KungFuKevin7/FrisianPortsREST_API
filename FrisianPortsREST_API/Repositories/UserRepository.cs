@@ -14,9 +14,10 @@ namespace FrisianPortsREST_API.Repositories
             const string addQuery = @$"INSERT INTO USERS
                             (EMAIL, PASSWORD, FIRSTNAME, SURNAME, PERMISSION_ADD_CARGO)
                             VALUES
-                            (@Email, @Password, @FirstName, @SurName, @PermissionAddCargo);";
+                            (@Email, @Password, @FirstName, @SurName, @PermissionAddCargo);
+                            SELECT LAST_INSERT_ID()";
 
-            int success = await connection.ExecuteAsync(addQuery,
+            int idNewUser = await connection.ExecuteAsync(addQuery,
                new
                {
                    Email = itemToAdd.Email,
@@ -27,7 +28,7 @@ namespace FrisianPortsREST_API.Repositories
                });
 
             connection.Close();
-            return success;
+            return idNewUser;
         }
 
         public int Delete(int itemToRemove)

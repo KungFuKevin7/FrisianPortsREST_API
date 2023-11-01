@@ -13,18 +13,19 @@ namespace FrisianPortsREST_API.Repositories
             const string addQuery = @$"INSERT INTO CargoTransport
                                        (FREQUENCY, DATE_STARTED, ADDED_BY_ID, ROUTE_ID)
                                        VALUES
-                                       (@Frequency, @DateStarted, @AddedById, @RouteId)";
+                                       (@Frequency, @DateStarted, @AddedById, @RouteId);
+                                       SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(addQuery,
+            int idOfCreated = await connection.ExecuteScalarAsync<int>(addQuery,
                new
                {
                    Frequency = cargoTransportToAdd.Frequency,
-                   DateStarted = cargoTransportToAdd.DateStarted,
+                   DateStarted = cargoTransportToAdd.Date_Started,
                    AddedById = cargoTransportToAdd.AddedById,
                    RouteId = cargoTransportToAdd.Route_Id
                });
             connection.Close();
-            return success;
+            return idOfCreated;
         }
 
         public int Delete(int idOfCargoTransportToRemove)
@@ -53,11 +54,11 @@ namespace FrisianPortsREST_API.Repositories
         public async Task<CargoTransport> GetById(int idOfCargoTransport)
         {
             const string query = @$"SELECT * FROM CargoTransport
-                                    WHERE CARGO_TRANSPORT_ID = @CargoTransportId";
+                                    WHERE CARGO_TRANSPORT_ID = @cargoTransportId";
             var cargoTransport = await connection.QuerySingleAsync<CargoTransport>(query,
                 new
                 {
-                    cargoId = idOfCargoTransport
+                    cargoTransportId = idOfCargoTransport
                 });
             connection.Close();
             return cargoTransport;
@@ -77,7 +78,7 @@ namespace FrisianPortsREST_API.Repositories
                new
                {
                    Frequency = cargoTransportUpdate.Frequency,
-                   DateStarted = cargoTransportUpdate.DateStarted,
+                   DateStarted = cargoTransportUpdate.Date_Started,
                    AddedById = cargoTransportUpdate.AddedById,
                    RouteId = cargoTransportUpdate.Route_Id
                });

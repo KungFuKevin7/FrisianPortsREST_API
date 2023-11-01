@@ -14,16 +14,17 @@ namespace FrisianPortsREST_API.Repositories
             const string addQuery = @$"INSERT INTO TRANSPORT
                             (CARGO_TRANSPORT_ID, DEPARTURE_DATE)
                             VALUES
-                            (@CargoTransportId, @DepartureDate);";
+                            (@CargoTransportId, @DepartureDate);
+                            SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(addQuery,
+            int idOfItem = await connection.ExecuteAsync(addQuery,
                new
                {
                    CargoTransportId = transportToAdd.Cargo_Transport_Id,
-                   DepartureDate = transportToAdd.DepartureDate
+                   DepartureDate = transportToAdd.Departure_Date
                });
             connection.Close();
-            return success;
+            return idOfItem;
         }
 
         public int Delete(int idToRemove)
@@ -42,7 +43,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Transport>> Get()
         {
-            const string getQuery = @$"SELECT * FROM ROUTE;";
+            const string getQuery = @$"SELECT * FROM TRANSPORT;";
 
             var list = await connection.QueryAsync<Transport>(getQuery);
             connection.Close();
@@ -74,7 +75,7 @@ namespace FrisianPortsREST_API.Repositories
                new
                {
                    CargoTransportId = itemToUpdate.Cargo_Transport_Id,
-                   DepartureDate = itemToUpdate.DepartureDate,
+                   DepartureDate = itemToUpdate.Departure_Date,
                    TransportId = itemToUpdate.Transport_Id
                });
             connection.Close();

@@ -12,50 +12,105 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await userRepo.Get();
-            return Ok(users);
+            try
+            {
+                var users = await userRepo.Get();
+                return Ok(users);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet("{userId}")]   //URI: api/port/{portId}
         public async Task<IActionResult> Get(int userId)
         {
-            var user = await userRepo.GetById(userId);
-            return Ok(user);
+            try
+            {
+                var user = await userRepo.GetById(userId);
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]Users userId)
+        public async Task<IActionResult> Add([FromBody]Users user)
         {
-            int success = await userRepo.Add(userId);
-            if (success > 0)
+            try
             {
-                return Ok();
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                
+                int newUserId = await userRepo.Add(user);
+                user.User_Id = newUserId;
+
+                if (newUserId > 0)
+                {
+                    return StatusCode(StatusCodes.Status201Created, user);
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();    //TODO: Return Proper error
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
         [HttpDelete]
         public IActionResult Delete(int userId)
         {
-            int success = userRepo.Delete(userId);
-            return Ok();
+            try
+            {
+                int success = userRepo.Delete(userId);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was deleted");
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Users user)
         {
-            int success = await userRepo.Update(user);
-            if (success > 0)
+            try
             {
-                return Ok();
+                int success = await userRepo.Update(user);
+                if (success > 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception("Nothing was updated");
+                }
             }
-            else
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
 
     }

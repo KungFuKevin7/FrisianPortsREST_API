@@ -33,9 +33,10 @@ namespace FrisianPortsREST_API.Repositories
         {
             const string query = $@"INSERT INTO Port
                                     (PORT_NAME, PORT_LOCATION, LATITUDE, LONGITUDE)
-                                    VALUES (@PortName,@PortLocation, @Latitude, @Longitude);";
+                                    VALUES (@PortName,@PortLocation, @Latitude, @Longitude);
+                                    SELECT LAST_INSERT_ID();";
 
-            int success = await connection.ExecuteAsync(query, 
+            int idOfCreatedItem = await connection.ExecuteScalarAsync<int>(query, 
                 new { 
                     PortName = portToAdd.Port_Name,
                     PortLocation = portToAdd.Port_Location,
@@ -43,7 +44,7 @@ namespace FrisianPortsREST_API.Repositories
                     Longitude = portToAdd.Longitude
                 });
             connection.Close();
-            return success;
+            return idOfCreatedItem;
         }
 
         public int Delete(int idOfPort)
