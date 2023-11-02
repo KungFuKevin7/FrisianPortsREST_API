@@ -29,12 +29,12 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-        [HttpGet("{transportId}")]
-        public async Task<IActionResult> Get(int transportId)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> Get(int Id)
         {
             try
             {
-                var transports = await TransportRepo.GetById(transportId);
+                var transports = await TransportRepo.GetById(Id);
                 
                 if (transports == null) 
                 {

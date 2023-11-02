@@ -31,12 +31,12 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-        [HttpGet("{cargoId}")]   //URI: api/port/{portId}
-        public async Task<IActionResult> Get(int cargoId)
+        [HttpGet("{Id}")]  
+        public async Task<IActionResult> Get(int Id)
         {
             try
             {
-                var cargoItem = await cargoRepo.GetById(cargoId);
+                var cargoItem = await cargoRepo.GetById(Id);
 
                 if (cargoItem == null)
                 {

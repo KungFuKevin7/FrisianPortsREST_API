@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FrisianPortsREST_API.DTO
 {
+    //Merging of Transport and Port
     public class PortGoodsFlowDto
     {
         public string? PortName { get; set; }

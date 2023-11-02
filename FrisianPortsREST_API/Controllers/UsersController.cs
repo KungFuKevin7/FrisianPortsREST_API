@@ -24,12 +24,12 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-        [HttpGet("{userId}")]   //URI: api/port/{portId}
-        public async Task<IActionResult> Get(int userId)
+        [HttpGet("{Id}")]   
+        public async Task<IActionResult> Get(int Id)
         {
             try
             {
-                var user = await userRepo.GetById(userId);
+                var user = await userRepo.GetById(Id);
                 return Ok(user);
             }
             catch (Exception)
@@ -73,11 +73,11 @@ namespace FrisianPortsREST_API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int userId)
+        public IActionResult Delete(int Id)
         {
             try
             {
-                int success = userRepo.Delete(userId);
+                int success = userRepo.Delete(Id);
                 if (success > 0)
                 {
                     return NoContent();

@@ -1,5 +1,6 @@
 ﻿namespace FrisianPortsREST_API.DTO
 {
+    //Merging: Port and CargoTransport
     public class GoodsFlowDto
     {
         public string? DepartureLocation { get; set; }

@@ -31,12 +31,12 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-        [HttpGet("{cargoTypeId}")]   //URI: api/port/{portId}
-        public async Task<IActionResult> Get(int cargoTypeId)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> Get(int Id)
         {
             try
             {
-                var cargoType = await cargoTypeRepo.GetById(cargoTypeId);
+                var cargoType = await cargoTypeRepo.GetById(Id);
             
                 if (cargoType == null)
                 {
@@ -87,11 +87,11 @@ namespace FrisianPortsREST_API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int cargoTypeId)
+        public IActionResult Delete(int Id)
         {
             try
             {
-                int success = cargoTypeRepo.Delete(cargoTypeId);
+                int success = cargoTypeRepo.Delete(Id);
                 if (success > 0) 
                 {
                     return NoContent();  

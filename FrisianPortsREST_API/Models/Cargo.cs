@@ -10,12 +10,12 @@ namespace FrisianPortsREST_API.Models
         public string? Cargo_Description { get; set; }
         
         [Required]
-        public int Weight_In_Tonnes { get; set; }
+        public int? Weight_In_Tonnes { get; set; }
 
         [Required]
-        public int Cargo_Type_Id { get; set; }
+        public int? Cargo_Type_Id { get; set; }
 
         [Required]
-        public int Transport_Id { get; set; }
+        public int? Transport_Id { get; set; }
     }
 }

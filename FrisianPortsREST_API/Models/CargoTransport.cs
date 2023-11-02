@@ -14,13 +14,13 @@ namespace FrisianPortsREST_API.Models
         public string? Frequency { get; set; }
 
         [Required]
-        public DateTime Date_Started { get; set; }
+        public DateTime? Date_Started { get; set; }
 
         [Required]
-        public int AddedById { get; set; }
+        public int? Added_By_Id { get; set; }
 
         [Required]
-        public int Route_Id { get; set; }
+        public int? Route_Id { get; set; }
 
     }
 }

@@ -21,7 +21,7 @@ namespace FrisianPortsREST_API.Repositories
                {
                    Frequency = cargoTransportToAdd.Frequency,
                    DateStarted = cargoTransportToAdd.Date_Started,
-                   AddedById = cargoTransportToAdd.AddedById,
+                   AddedById = cargoTransportToAdd.Added_By_Id,
                    RouteId = cargoTransportToAdd.Route_Id
                });
             connection.Close();
@@ -79,7 +79,7 @@ namespace FrisianPortsREST_API.Repositories
                {
                    Frequency = cargoTransportUpdate.Frequency,
                    DateStarted = cargoTransportUpdate.Date_Started,
-                   AddedById = cargoTransportUpdate.AddedById,
+                   AddedById = cargoTransportUpdate.Added_By_Id,
                    RouteId = cargoTransportUpdate.Route_Id
                });
             connection.Close();
