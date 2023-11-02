@@ -61,6 +61,10 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest("port was null");
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 var createdPort = await portRepo.Add(port);
 
@@ -90,8 +94,13 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 int success = await portRepo.Update(port);
+
                 if (success > 0)
                 {
                     return NoContent();

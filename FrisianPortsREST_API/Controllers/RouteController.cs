@@ -50,6 +50,10 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 int idOfNewRoute = await routeRepo.Add(route);
                 route.Route_Id = idOfNewRoute;
@@ -99,7 +103,17 @@ namespace FrisianPortsREST_API.Controllers
         {
             try
             {
+                if (routeUpdate == null) 
+                {
+                    return BadRequest();
+                }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 int success = await routeRepo.Update(routeUpdate);
+                
                 if (success > 0)
                 {
                     return NoContent();

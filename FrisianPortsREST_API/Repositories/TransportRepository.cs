@@ -55,12 +55,21 @@ namespace FrisianPortsREST_API.Repositories
             const string getQuery = @$"SELECT * FROM TRANSPORT
                                        WHERE TRANSPORT_ID = @TransportId;";
 
-            var transport = await connection.QuerySingleAsync<Transport>(getQuery,
-                new { 
-                    TransportId = idOfItem
-                });
-            connection.Close();
-            return transport;
+           // try
+            //{
+                var transport = await connection.QuerySingleAsync<Transport>(getQuery,
+                    new { 
+                        TransportId = idOfItem
+                    }); 
+                connection.Close();
+                return transport;
+            //}
+            //catch (Exception)
+            //{
+            //    return;
+            //}
+
+
         }
 
         public async Task<int> Update(Transport itemToUpdate)

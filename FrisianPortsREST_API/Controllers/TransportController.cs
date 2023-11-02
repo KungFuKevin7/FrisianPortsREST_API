@@ -60,6 +60,10 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 int transportId = await TransportRepo.Add(transport);
                 transport.Transport_Id = transportId;
@@ -111,6 +115,10 @@ namespace FrisianPortsREST_API.Controllers
                 if (transport == null) 
                 {
                     return BadRequest();
+                }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
                 }
 
                 var updateSuccess = await TransportRepo.Update(transport);

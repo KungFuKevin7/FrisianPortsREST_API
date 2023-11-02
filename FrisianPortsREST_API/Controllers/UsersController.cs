@@ -48,12 +48,16 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
                 
                 int newUserId = await userRepo.Add(user);
-                user.User_Id = newUserId;
 
                 if (newUserId > 0)
                 {
+                    user.User_Id = newUserId;
                     return StatusCode(StatusCodes.Status201Created, user);
                 }
                 else
@@ -96,7 +100,17 @@ namespace FrisianPortsREST_API.Controllers
         {
             try
             {
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 int success = await userRepo.Update(user);
+                
                 if (success > 0)
                 {
                     return NoContent();

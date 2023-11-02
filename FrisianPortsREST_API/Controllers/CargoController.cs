@@ -61,8 +61,13 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
-
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+                
                 int createdId = await cargoRepo.Add(cargoToAdd);
+
                 if (createdId > 0)
                 {
                    cargoToAdd.Cargo_Id = createdId;
@@ -72,13 +77,11 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     throw new Exception("Nothing was Added");
                 }
-     
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [HttpDelete]
@@ -113,8 +116,13 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
-                
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 int success = await cargoRepo.Update(cargo);
+
                 if (success > 0)
                 {
                     return NoContent();

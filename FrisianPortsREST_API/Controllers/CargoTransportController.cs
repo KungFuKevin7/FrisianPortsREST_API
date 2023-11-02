@@ -64,7 +64,13 @@ namespace FrisianPortsREST_API.Controllers
                 {
                     return BadRequest();
                 }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 int createdId = await cargoTransportRepo.Add(cargoTransport);
+                
                 if (createdId > 0)
                 {
                     cargoTransport.Cargo_Transport_Id = createdId;
@@ -112,6 +118,10 @@ namespace FrisianPortsREST_API.Controllers
                 if (cargoTr == null)
                 {
                     return BadRequest();
+                }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
                 }
 
                 int success = await cargoTransportRepo.Update(cargoTr);

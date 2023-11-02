@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FrisianPortsREST_API.Models
 {
@@ -6,13 +7,21 @@ namespace FrisianPortsREST_API.Models
     {
         public int Port_Id { get; set; }
 
-        public string Port_Name { get; set; }
+        [Required]
+        [MaxLength(30)]
+        public string? Port_Name { get; set; }
 
-        public string Port_Location { get; set; }
+        [Required]
+        [MaxLength(30)]
+        public string? Port_Location { get; set; }
 
-        public string Latitude { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string? Latitude { get; set; }
 
-        public string Longitude { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string? Longitude { get; set; }
 
     }
 }
