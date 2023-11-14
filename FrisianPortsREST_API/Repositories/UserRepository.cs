@@ -11,66 +11,84 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Add(Users itemToAdd)
         {
-            const string addQuery = @$"INSERT INTO USERS
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string addQuery = @$"INSERT INTO USERS
                             (EMAIL, PASSWORD, FIRSTNAME, SURNAME, PERMISSION_ADD_CARGO)
                             VALUES
                             (@Email, @Password, @FirstName, @SurName, @PermissionAddCargo);
                             SELECT LAST_INSERT_ID()";
 
-            int idNewUser = await connection.ExecuteAsync(addQuery,
-               new
-               {
-                   Email = itemToAdd.Email,
-                   Password = itemToAdd.Password,
-                   FirstName = itemToAdd.FirstName,
-                   SurName = itemToAdd.SurName,
-                   PermissionAddCargo = itemToAdd.Permission_Add_Cargo
-               });
+                int idNewUser = await connection.ExecuteAsync(addQuery,
+                   new
+                   {
+                       Email = itemToAdd.Email,
+                       Password = itemToAdd.Password,
+                       FirstName = itemToAdd.FirstName,
+                       SurName = itemToAdd.SurName,
+                       PermissionAddCargo = itemToAdd.Permission_Add_Cargo
+                   });
 
-            connection.Close();
-            return idNewUser;
+                return idNewUser;
+            }
         }
 
         public int Delete(int itemToRemove)
         {
-            const string query = @$"DELETE FROM USERS
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string query = @$"DELETE FROM USERS
                                     WHERE USER_ID = @UserId;";
 
-            int success = connection.Execute(query,
-                new
-                {
-                    UserId = itemToRemove
-                });
-            connection.Close();
-            return success;
+                int success = connection.Execute(query,
+                    new
+                    {
+                        UserId = itemToRemove
+                    });
+                connection.Close();
+                return success;
+            }
         }
 
         public async Task<List<Users>> Get()
         {
-            const string getQuery = @$"SELECT * FROM USERS;";
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string getQuery = @$"SELECT * FROM USERS;";
 
-            var list = await connection.QueryAsync<Users>(getQuery);
-            connection.Close();
-            return list.ToList();
+                var list = await connection.QueryAsync<Users>(getQuery);
+                connection.Close();
+                return list.ToList();
+            }
         }
 
         public async Task<Users> GetById(int idOfItem)
         {
-            const string getQuery = @$"SELECT * FROM USERS
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string getQuery = @$"SELECT * FROM USERS
                                        WHERE USER_ID = @UserId;";
 
-            var user = await connection.QuerySingleAsync<Users>(getQuery, 
-                new {
-                    UserId = idOfItem
-                });
+                var user = await connection.QuerySingleAsync<Users>(getQuery,
+                    new
+                    {
+                        UserId = idOfItem
+                    });
 
-            connection.Close();
-            return user;
+                return user;
+            }
         }
 
         public async Task<int> Update(Users userUpdate)
         {
-            const string updateQuery = @$"UPDATE USERS
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string updateQuery = @$"UPDATE USERS
                                        SET 
                                        EMAIL = @Email,
                                        PASSWORD = @Password,
@@ -79,20 +97,19 @@ namespace FrisianPortsREST_API.Repositories
                                        PERMISSION_ADD_CARGO = @Permission
                                        WHERE USER_ID = @UserId;";
 
-            int success = await connection.ExecuteAsync(updateQuery,
-               new
-               {
-                   Email = userUpdate.Email,
-                   Password = userUpdate.Password,
-                   FirstName = userUpdate.FirstName,
-                   SurName = userUpdate.SurName,
-                   Permission = userUpdate.Permission_Add_Cargo,
-                   UserId = userUpdate.User_Id
-               });
-
-            connection.Close();
-
-            return success;
+                int success = await connection.ExecuteAsync(updateQuery,
+                   new
+                   {
+                       Email = userUpdate.Email,
+                       Password = userUpdate.Password,
+                       FirstName = userUpdate.FirstName,
+                       SurName = userUpdate.SurName,
+                       Permission = userUpdate.Permission_Add_Cargo,
+                       UserId = userUpdate.User_Id
+                   });
+             
+                return success;
+            }
         }
     }
 }

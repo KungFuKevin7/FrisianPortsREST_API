@@ -30,7 +30,6 @@ namespace FrisianPortsREST_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [HttpGet("{Id}")]
@@ -52,7 +51,6 @@ namespace FrisianPortsREST_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
- 
         }
 
         [HttpPost]
@@ -138,6 +136,52 @@ namespace FrisianPortsREST_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
+        }
+
+        [HttpGet("get-import")]
+        public async Task<IActionResult> GetImport(int portId)
+        {
+            try
+            {
+                var cargoTransport = await cargoTransportRepo.
+                    GetImportShipsByPortId(portId);
+
+                if (cargoTransport == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(cargoTransport);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet("get-export")]
+        public async Task<IActionResult> GetExport(int portId)
+        {
+            try
+            {
+                var cargoTransport = await cargoTransportRepo.
+                    GetExportShipsByPortId(portId);
+
+                if (cargoTransport == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(cargoTransport);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

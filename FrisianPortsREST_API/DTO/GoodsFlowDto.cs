@@ -3,9 +3,10 @@
     //Merging: Port and CargoTransport
     public class GoodsFlowDto
     {
-        public string? DepartureLocation { get; set; }
-        public string? DestinationLocation { get; set; }
+        public int Cargo_Transport_Id { get; set; }
+        public string? Departure_Location { get; set; }
+        public string? Arrival_Location { get; set; }
         public string? Frequency { get; set; }
-        public int TotalWeight { get; set; }
+        public int Total_Weight { get; set; }
     }
 }

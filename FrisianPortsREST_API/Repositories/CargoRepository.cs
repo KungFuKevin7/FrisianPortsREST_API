@@ -6,64 +6,84 @@ namespace FrisianPortsREST_API.Repositories
 {
     public class CargoRepository : IRepository<Cargo>
     {
-        public static MySqlConnection connection = DBConnection.getConnection();
-
         public async Task<int> Add(Cargo cargoToAdd)
         {
-            string query = @$"INSERT INTO Cargo 
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+
+                string query = @$"INSERT INTO Cargo 
                              (CARGO_DESCRIPTION, WEIGHT_IN_TONNES, CARGO_TYPE_ID, TRANSPORT_ID)
                              VALUES (@cargoDescription, @weightInTonnes, @cargoTypeId, @transportId);
                              SELECT LAST_INSERT_ID();";
 
-            int createdId = await connection.ExecuteScalarAsync<int>(query,
-                new
-                {
-                    cargoDescription = cargoToAdd.Cargo_Description,
-                    weightInTonnes = cargoToAdd.Weight_In_Tonnes,
-                    cargoTypeId = cargoToAdd.Cargo_Type_Id,
-                    transportId = cargoToAdd.Transport_Id
-                });
-            connection.Close();
-            return createdId;
+                int createdId = await connection.ExecuteScalarAsync<int>(query,
+                    new
+                    {
+                        cargoDescription = cargoToAdd.Cargo_Description,
+                        weightInTonnes = cargoToAdd.Weight_In_Tonnes,
+                        cargoTypeId = cargoToAdd.Cargo_Type_Id,
+                        transportId = cargoToAdd.Transport_Id
+                    });
+                connection.Close();
+                return createdId;
+            }
         }
 
         public int Delete(int idOfCargoToRemove)
         {
-            const string query = $@"DELETE FROM Cargo
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string query = $@"DELETE FROM Cargo
                                     WHERE CARGO_ID = @cargoId";
 
-            int success = connection.Execute(query,
-                new
-                {
-                    cargoId = idOfCargoToRemove
-                });
-            connection.Close();
-            return success;
+                int success = connection.Execute(query,
+                    new
+                    {
+                        cargoId = idOfCargoToRemove
+                    });
+                //connection.Close();
+                return success;
+            }
         }
 
         public async Task<List<Cargo>> Get()
         {
-            const string query = "SELECT * FROM Cargo;";
-            var list = await connection.QueryAsync<Cargo>(query);
-            connection.Close();
-            return list.ToList();
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+
+                const string query = "SELECT * FROM Cargo;";
+                var list = await connection.QueryAsync<Cargo>(query);
+                connection.Close();
+                return list.ToList();
+            }
         }
 
         public async Task<Cargo> GetById(int idOfCargo)
         {
-            const string query = @$"SELECT * FROM Cargo
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string query = @$"SELECT * FROM Cargo
                                     WHERE CARGO_ID = @cargoId";
-            var cargo = await connection.QuerySingleAsync<Cargo>(query,
-                new { 
-                    cargoId = idOfCargo
-                });
-            connection.Close();
-            return cargo;
+                var cargo = await connection.QuerySingleAsync<Cargo>(query,
+                    new
+                    {
+                        cargoId = idOfCargo
+                    });
+                connection.Close();
+                return cargo;
+            }
         }
 
         public async Task<int> Update(Cargo cargoToUpdate)
         {
-            const string updateQuery = @$"UPDATE Cargo
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string updateQuery = @$"UPDATE Cargo
                                          SET 
                                          CARGO_DESCRIPTION = @cargoDescription,
                                          WEIGHT_IN_TONNES = @weightInTonnes,
@@ -71,16 +91,19 @@ namespace FrisianPortsREST_API.Repositories
                                          TRANSPORT_ID = @transportId
                                          WHERE CARGO_ID = @cargoId";
 
-            int success = await connection.ExecuteAsync(updateQuery,
-                new { 
-                    cargoDescription = cargoToUpdate.Cargo_Description,
-                    weightInTonnes = cargoToUpdate.Weight_In_Tonnes,
-                    cargoTypeId = cargoToUpdate.Cargo_Type_Id,
-                    transportId = cargoToUpdate.Transport_Id,
-                    cargoId = cargoToUpdate.Cargo_Id
-                });
-            connection.Close();
-            return success;
+                int success = await connection.ExecuteAsync(updateQuery,
+                    new
+                    {
+                        cargoDescription = cargoToUpdate.Cargo_Description,
+                        weightInTonnes = cargoToUpdate.Weight_In_Tonnes,
+                        cargoTypeId = cargoToUpdate.Cargo_Type_Id,
+                        transportId = cargoToUpdate.Transport_Id,
+                        cargoId = cargoToUpdate.Cargo_Id
+                    });
+                connection.Close();
+                return success;
+            }
         }
+
     }
 }

@@ -9,7 +9,6 @@ namespace FrisianPortsREST_API.Controllers
     {
         CargoRepository cargoRepo = new CargoRepository();
 
-
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -49,7 +48,6 @@ namespace FrisianPortsREST_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [HttpPost]
