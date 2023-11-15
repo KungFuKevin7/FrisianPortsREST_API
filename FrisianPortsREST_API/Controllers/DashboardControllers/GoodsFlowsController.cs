@@ -24,5 +24,21 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetWithSearch(string query)
+        {
+            try
+            {
+                var cargoTransports = await goodsFlowRepo.
+                    GetGoodsFlows(query);
+
+                return Ok(cargoTransports);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

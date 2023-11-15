@@ -98,5 +98,26 @@ namespace FrisianPortsREST_API.Repositories
                 return success;
             }
         }
+
+        public async Task<List<Port>> GetPorts(string searchQuery)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                string dbQuery = $@"SELECT * FROM Port
+                              WHERE Port_Name LIKE @Query
+                              OR    Port_Location LIKE @Query";
+
+                searchQuery = $"%{searchQuery}%";
+
+                var portResults = await connection.QueryAsync<Port>(dbQuery,
+                    new
+                    {
+                        Query = searchQuery
+                    });
+
+                return portResults.ToList();
+            }
+        }
+
     }
 }

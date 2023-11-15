@@ -32,7 +32,6 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
-        
         [HttpGet("{Id}")]   //URI: api/port/{port-id}
         public async Task<IActionResult> GetById(int Id)
         {
@@ -136,6 +135,14 @@ namespace FrisianPortsREST_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
+        }
+
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetPorts(string query)
+        {
+            var result = await portRepo.GetPorts(query);
+            return Ok(result);
         }
 
     }

@@ -4,6 +4,6 @@
     {
         public int? Year { get; set; }
 
-        public TransportedCargoDTO? Transported {  get; set; }
+        public List<TransportedCargoDTO>? Transported {  get; set; }
     }
 }
