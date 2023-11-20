@@ -1,6 +1,7 @@
 ﻿using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace FrisianPortsREST_API.Controllers
 {
@@ -15,11 +16,16 @@ namespace FrisianPortsREST_API.Controllers
             try
             {
                 var users = await userRepo.Get();
+                if (users == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(users);
             }
             catch (Exception)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
         }
@@ -29,12 +35,17 @@ namespace FrisianPortsREST_API.Controllers
         {
             try
             {
-                var user = await userRepo.GetById(Id);
+                var user = await userRepo.GetById(Id); 
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(user);
             }
             catch (Exception)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
         }

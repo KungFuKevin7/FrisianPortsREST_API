@@ -24,6 +24,19 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        [HttpGet("available-years")]
+        public async Task<IActionResult> GetAvailibleYears(int portId) 
+        {
+            try
+            {
+                var years = await periodRepo.GetAllYears(portId);
 
+                return Ok(years);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

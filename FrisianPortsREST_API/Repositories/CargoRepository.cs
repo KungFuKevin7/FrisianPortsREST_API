@@ -68,7 +68,7 @@ namespace FrisianPortsREST_API.Repositories
                 connection.Open();
                 const string query = @$"SELECT * FROM Cargo
                                     WHERE CARGO_ID = @cargoId";
-                var cargo = await connection.QuerySingleAsync<Cargo>(query,
+                var cargo = await connection.QuerySingleOrDefaultAsync<Cargo>(query,
                     new
                     {
                         cargoId = idOfCargo

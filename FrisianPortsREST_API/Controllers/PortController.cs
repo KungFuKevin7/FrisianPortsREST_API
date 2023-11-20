@@ -141,8 +141,45 @@ namespace FrisianPortsREST_API.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> GetPorts(string query)
         {
-            var result = await portRepo.GetPorts(query);
-            return Ok(result);
+            try
+            {
+                var result = await portRepo.GetPorts(query);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet("location")]
+        public async Task<IActionResult> GetByLocation(string city)
+        {
+            try
+            {
+                var result = await portRepo.GetPortByLocation(city);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
     }

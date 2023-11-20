@@ -24,8 +24,8 @@ namespace FrisianPortsREST_API.Repositories
             using (var connection = DBConnection.getConnection())
             {
                 const string query = @$"SELECT * FROM Port
-                                    WHERE PORT_ID = @portId;";
-                var port = await connection.QuerySingleAsync<Port>(query,
+                                        WHERE PORT_ID = @portId;";
+                var port = await connection.QuerySingleOrDefaultAsync<Port>(query,
                     new
                     {
                         portId = portId
@@ -116,6 +116,23 @@ namespace FrisianPortsREST_API.Repositories
                     });
 
                 return portResults.ToList();
+            }
+        }
+
+        public async Task<Port> GetPortByLocation(string location)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                string dbQuery = $@"SELECT * FROM Port
+                                    WHERE Port_Location = @Query";
+
+                var portResults = await connection.QuerySingleAsync<Port>(dbQuery,
+                    new
+                    {
+                        Query = location
+                    });
+
+                return portResults;
             }
         }
 

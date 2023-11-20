@@ -10,11 +10,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             new TotalRepository();
 
         [HttpGet("import")]
-        public async Task<IActionResult> GetImportShips(int portId)
+        public async Task<IActionResult> GetImportShips(int portId, int period)
         {
             try
             {
-                var cargo = await totalRepo.GetImportShips(portId);
+                var cargo = await totalRepo.GetImportShips(portId, period);
 
                 return Ok(cargo);
             }
@@ -25,11 +25,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("export")]
-        public async Task<IActionResult> GetExportShips(int portId)
+        public async Task<IActionResult> GetExportShips(int portId, int period)
         {
             try
             {
-                var cargo = await totalRepo.GetExportShips(portId);
+                var cargo = await totalRepo.GetExportShips(portId, period);
 
                 return Ok(cargo);
             }
@@ -40,11 +40,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("import-tonnage")]
-        public async Task<IActionResult> GetImportWeightCargo(int portId)
+        public async Task<IActionResult> GetImportWeightCargo(int portId, int period)
         {
             try
             {
-                var cargo = await totalRepo.GetTotalImportWeight(portId);
+                var cargo = await totalRepo.GetTotalImportWeight(portId, period);
 
                 return Ok(cargo);
             }
@@ -55,11 +55,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("export-tonnage")]
-        public async Task<IActionResult> GetExportWeightCargo(int portId)
+        public async Task<IActionResult> GetExportWeightCargo(int portId, int period)
         {
             try
             {
-                var cargo = await totalRepo.GetTotalExportWeight(portId);
+                var cargo = await totalRepo.GetTotalExportWeight(portId, period);
 
                 return Ok(cargo);
             }

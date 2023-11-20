@@ -68,7 +68,7 @@ namespace FrisianPortsREST_API.Repositories
                 const string getQuery = @$"SELECT * FROM TRANSPORT
                                        WHERE TRANSPORT_ID = @TransportId;";
 
-                var transport = await connection.QuerySingleAsync<Transport>(getQuery,
+                var transport = await connection.QuerySingleOrDefaultAsync<Transport>(getQuery,
                     new
                     {
                         TransportId = idOfItem
@@ -100,6 +100,26 @@ namespace FrisianPortsREST_API.Repositories
       
                 return success;
             }
+        }
+
+        public async Task<int> GetCountInCargoTransport(int idOfItem)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string getQuery = @$"SELECT COUNT(*) FROM cargotransport CT
+                                            INNER JOIN transport t on CT.CARGO_TRANSPORT_ID = t.CARGO_TRANSPORT_ID
+                                            WHERE CT.CARGO_TRANSPORT_ID = @cargoTransportId;";
+
+                var transports = await connection.ExecuteScalarAsync<int>(getQuery,
+                    new
+                    {
+                        cargoTransportId = idOfItem
+                    });
+
+                return transports;
+            }
+
         }
 
     }

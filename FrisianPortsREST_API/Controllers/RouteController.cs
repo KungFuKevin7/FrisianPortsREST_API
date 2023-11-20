@@ -1,6 +1,7 @@
 ﻿using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Route = FrisianPortsREST_API.Models.Route;
 
 namespace FrisianPortsREST_API.Controllers
@@ -17,13 +18,17 @@ namespace FrisianPortsREST_API.Controllers
             try
             {
                 var routes = await routeRepo.Get();
+                if (routes == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(routes);
             }
             catch (Exception)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [HttpGet("{Id}")]
@@ -32,13 +37,17 @@ namespace FrisianPortsREST_API.Controllers
             try
             {
                 var route = await routeRepo.GetById(Id);
+                if (route == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(route);
             }
             catch (Exception)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);   
             }
-
         }
 
         [HttpPost]

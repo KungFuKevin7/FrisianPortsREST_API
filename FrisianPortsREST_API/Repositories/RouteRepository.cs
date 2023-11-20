@@ -68,7 +68,7 @@ namespace FrisianPortsREST_API.Repositories
                 const string getQuery = @$"SELECT * FROM ROUTE
                                        WHERE ROUTE_ID = @RouteId;";
 
-                var route = await connection.QuerySingleAsync<Route>(getQuery,
+                var route = await connection.QuerySingleOrDefaultAsync<Route>(getQuery,
                     new
                     {
                         RouteId = idOfItem

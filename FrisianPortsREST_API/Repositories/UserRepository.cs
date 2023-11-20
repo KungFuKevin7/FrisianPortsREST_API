@@ -73,7 +73,7 @@ namespace FrisianPortsREST_API.Repositories
                 const string getQuery = @$"SELECT * FROM USERS
                                        WHERE USER_ID = @UserId;";
 
-                var user = await connection.QuerySingleAsync<Users>(getQuery,
+                var user = await connection.QuerySingleOrDefaultAsync<Users>(getQuery,
                     new
                     {
                         UserId = idOfItem

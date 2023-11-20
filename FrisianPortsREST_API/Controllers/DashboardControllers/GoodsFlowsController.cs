@@ -40,5 +40,22 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet("by-id")]
+        public async Task<IActionResult> GetById(int cargoTransportId)
+        {
+            try
+            {
+                var cargoTransports = await goodsFlowRepo.
+                    GetGoodsFlowsById(cargoTransportId);
+
+                return Ok(cargoTransports);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

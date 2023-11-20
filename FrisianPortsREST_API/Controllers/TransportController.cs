@@ -136,7 +136,26 @@ namespace FrisianPortsREST_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
 
+        [HttpGet("cargo-transport-count")]
+        public async Task<IActionResult> GetCountInCargoTransport(int Id)
+        {
+            try
+            {
+                if (Id == 0)
+                {
+                    return BadRequest();
+                }
+
+                var transportCount = await TransportRepo.GetCountInCargoTransport(Id);
+
+                return Ok(transportCount);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
