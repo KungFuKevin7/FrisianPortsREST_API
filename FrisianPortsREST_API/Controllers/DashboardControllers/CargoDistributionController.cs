@@ -24,9 +24,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoDistribution);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("IMPORT: " + e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -45,9 +44,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("EXPORT + " + e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

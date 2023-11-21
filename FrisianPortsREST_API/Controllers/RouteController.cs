@@ -64,21 +64,31 @@ namespace FrisianPortsREST_API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                int idOfNewRoute = await routeRepo.Add(route);
-                route.Route_Id = idOfNewRoute;
-                
-                if (idOfNewRoute > 0)
+                Route existingRoute = routeRepo.CheckCombinationExists
+                    (route.Departure_Port_Id, route.Arrival_Port_Id).Result;
+
+            
+                if (existingRoute == null) //If Route does not exist yet, add
                 {
-                    return StatusCode(StatusCodes.Status201Created, route);
+                    int idOfNewRoute = await routeRepo.Add(route);
+                    route.Route_Id = idOfNewRoute;
+
+                    if (idOfNewRoute > 0)
+                    {
+                        return StatusCode(StatusCodes.Status201Created, route);
+                    }
                 }
-                else
+                else            //return the same Route that already existed
                 {
-                    throw new Exception("Nothing was updated");
+                    return StatusCode(StatusCodes.Status303SeeOther, existingRoute);
                 }
 
+                throw new Exception("Nothing was added");
+                
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 

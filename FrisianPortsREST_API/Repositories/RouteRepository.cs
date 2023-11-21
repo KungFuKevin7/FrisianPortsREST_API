@@ -60,6 +60,24 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
+        public async Task<Route> CheckCombinationExists(int? departPort, int? arrivalPort)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+                const string getQuery = @$"SELECT * FROM ROUTE
+                                           WHERE DEPARTURE_PORT_ID = @DepartPort
+                                           AND ARRIVAL_PORT_ID = @ArrivalPort;";
+
+                var exists = await connection.QuerySingleOrDefaultAsync<Route>(getQuery, new { 
+                    DepartPort = departPort,
+                    ArrivalPort = arrivalPort
+                });
+
+                return exists;
+            }
+        }
+
         public async Task<Route> GetById(int idOfItem)
         {
             using (var connection = DBConnection.getConnection())
