@@ -9,6 +9,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         public GoodsFlowRepository goodsFlowRepo =
             new GoodsFlowRepository();
 
+        /// <summary>
+        /// Get all flow-of-goods of requested port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <returns>Cargotransport connected to requested port</returns>
         [HttpGet]
         public async Task<IActionResult> GetCargoTransports(int portId)
         {
@@ -25,6 +30,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Get all flow-of-goods based on search query
+        /// </summary>
+        /// <param name="query">Search query</param>
+        /// <returns>Flow-of-goods matching parts of the query</returns>
         [HttpGet("search")]
         public async Task<IActionResult> GetWithSearch(string query)
         {
@@ -41,6 +51,13 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets information about requested cargoTransport
+        /// </summary>
+        /// <param name="cargoTransportId">Id of requested Cargotransport</param>
+        /// <returns>
+        /// Flow-of-goods information matching the requested cargoTransport
+        /// </returns>
         [HttpGet("by-id")]
         public async Task<IActionResult> GetById(int cargoTransportId)
         {

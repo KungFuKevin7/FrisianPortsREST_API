@@ -10,6 +10,12 @@ namespace FrisianPortsREST_API.Controllers
         CargoTransportRepository cargoTransportRepo =
             new CargoTransportRepository();
 
+        /// <summary>
+        /// Gets all the items available in the database
+        /// </summary>
+        /// <returns>
+        /// Http statuscode along with the objects if request succeeds
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -32,6 +38,13 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the cargotransport item based on the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of the requested Item</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the requested resource
+        /// </returns>
         [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int Id)
         {
@@ -53,6 +66,14 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Adds a cargoTransport item to the database
+        /// </summary>
+        /// <param name="cargoTransport">Item that gets added to database</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the created resource
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]CargoTransport cargoTransport)
         {
@@ -86,6 +107,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Deletes an Item from the database based on the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of the item that should be deleted</param>
+        /// <returns>Http Statuscode based on the status of the request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id) 
         {
@@ -108,6 +134,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an already existing item in the database
+        /// </summary>
+        /// <param name="cargoTr">Updated item that replaces the old item</param>
+        /// <returns>Http statuscode based on the status of request</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]CargoTransport cargoTr) 
         {
@@ -138,50 +169,6 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-        [HttpGet("get-import")]
-        public async Task<IActionResult> GetImport(int portId)
-        {
-            try
-            {
-                var cargoTransport = await cargoTransportRepo.
-                    GetImportShipsByPortId(portId);
 
-                if (cargoTransport == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(cargoTransport);
-                }
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        [HttpGet("get-export")]
-        public async Task<IActionResult> GetExport(int portId)
-        {
-            try
-            {
-                var cargoTransport = await cargoTransportRepo.
-                    GetExportShipsByPortId(portId);
-
-                if (cargoTransport == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(cargoTransport);
-                }
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
     }
 }

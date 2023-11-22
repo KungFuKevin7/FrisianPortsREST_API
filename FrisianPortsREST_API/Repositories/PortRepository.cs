@@ -136,5 +136,56 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets List of total import cargo.
+        /// </summary>
+        /// <param name="idOfPort">Id of requested port</param>
+        /// <returns>List of cargoTransports contributing to import</returns>
+        public async Task<List<CargoTransport>> GetImportShipsByPortId(int idOfPort)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+
+                const string query = $@"SELECT CT.* FROM CargoTransport CT
+                                    INNER JOIN Transport T ON CT.CARGO_TRANSPORT_ID = T.CARGO_TRANSPORT_ID
+                                    INNER JOIN Route R ON CT.ROUTE_ID = R.ROUTE_ID
+                                    WHERE R.DEPARTURE_PORT_ID = @DeparturePortId;";
+                var cargoTransports = await connection.QueryAsync<CargoTransport>(query,
+                    new
+                    {
+                        DeparturePortId = idOfPort
+                    });
+
+                return cargoTransports.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Gets List of total export cargo.
+        /// </summary>
+        /// <param name="idOfPort">Id of requested port</param>
+        /// <returns>List of cargoTransports contributing to export</returns>
+        public async Task<List<CargoTransport>> GetExportShipsByPortId(int idOfPort)
+        {
+            using (var connection = DBConnection.getConnection())
+            {
+                connection.Open();
+
+                const string query = $@"SELECT CT.* FROM CargoTransport CT
+                                    INNER JOIN Transport T ON CT.CARGO_TRANSPORT_ID = T.CARGO_TRANSPORT_ID
+                                    INNER JOIN Route R ON CT.ROUTE_ID = R.ROUTE_ID
+                                    WHERE R.ARRIVAL_PORT_ID = @ArrivalPortId;";
+                var cargoTransports = await connection.QueryAsync<CargoTransport>(query,
+                    new
+                    {
+                        ArrivalPortId = idOfPort
+                    });
+                //connection.Close();
+
+                return cargoTransports.ToList();
+            }
+        }
+
     }
 }

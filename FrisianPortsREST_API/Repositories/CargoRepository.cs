@@ -6,6 +6,7 @@ namespace FrisianPortsREST_API.Repositories
 {
     public class CargoRepository : IRepository<Cargo>
     {
+        ///<inheritdoc/>
         public async Task<int> Add(Cargo cargoToAdd)
         {
             using (var connection = DBConnection.getConnection())

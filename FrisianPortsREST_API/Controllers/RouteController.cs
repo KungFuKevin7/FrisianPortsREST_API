@@ -12,6 +12,10 @@ namespace FrisianPortsREST_API.Controllers
         public RouteRepository routeRepo = new RouteRepository();
 
 
+        /// <summary>
+        /// Gets all routes from the database
+        /// </summary>
+        /// <returns>Http Statuscodes along with all routes</returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -31,6 +35,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the route based on the Id of item
+        /// </summary>
+        /// <param name="Id">Id of requested resource</param>
+        /// <returns>Http Statuscode along with the requested route</returns>
         [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int Id)
         {
@@ -50,6 +59,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds an route to the database
+        /// </summary>
+        /// <param name="route">Item to be added to the database</param>
+        /// <returns>Http Statuscode along with newly created route</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Route route)
         {
@@ -94,6 +108,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Delete an route with corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of route to be deleted</param>
+        /// <returns>Http Statuscode based on status of request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
@@ -117,6 +136,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an already existing route in the database
+        /// </summary>
+        /// <param name="routeUpdate">Updated route</param>
+        /// <returns>Http Statuscode based on status of request</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Route routeUpdate)
         {

@@ -9,15 +9,20 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
         public AverageRepository avgRepo = new AverageRepository();
 
+        /// <summary>
+        /// Gets the average import weight of a port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <returns>Average import weight</returns>
         [HttpGet("import-tonnage")]
         public async Task<IActionResult> GetAverageImportWeightCargo(int portId)
         {
             try
             {
-                var cargo = await avgRepo.GetAverageImportWeight(portId);
+                var avgImport = await avgRepo.GetAverageImportWeight(portId);
 
 
-                return Ok(cargo);
+                return Ok(avgImport);
             }
             catch (Exception)
             {
@@ -25,6 +30,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets the average export weight of a port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <returns>Average export weight</returns>
         [HttpGet("export-tonnage")]
         public async Task<IActionResult> GetAverageExportWeightCargo(int portId)
         {

@@ -11,6 +11,12 @@ namespace FrisianPortsREST_API.Controllers
 
         PortRepository portRepo = new PortRepository();
 
+        /// <summary>
+        /// Gets all available ports in the database
+        /// </summary>
+        /// <returns>
+        /// Corresponding Http Statuscode along with all ports
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get() 
         {
@@ -32,7 +38,15 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
-        [HttpGet("{Id}")]   //URI: api/port/{port-id}
+        /// <summary>
+        /// Gets a port with the corresponding Id
+        /// URI: api/port/{port-id}
+        /// </summary>
+        /// <param name="Id">Id of the requested port</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the requested port
+        /// </returns>
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetById(int Id)
         {
             try
@@ -51,6 +65,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds an Port to the database
+        /// </summary>
+        /// <param name="port">Port that should be added to database</param>
+        /// <returns>Http Statuscode along with newly created port</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Port port)
         {
@@ -84,6 +103,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an already existing port in the database
+        /// </summary>
+        /// <param name="port">updated port item</param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Port port)
         {
@@ -115,6 +139,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an port from the database with the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of port to be deleted</param>
+        /// <returns>Http Statuscode based on status of request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
@@ -137,35 +166,19 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
-
+        /// <summary>
+        /// Gets all ports that contain the searchquery in their name
+        /// </summary>
+        /// <param name="query">search query to search for</param>
+        /// <returns>
+        /// Items containing the characters of query somewhere in their name
+        /// </returns>
         [HttpGet("search")]
         public async Task<IActionResult> GetPorts(string query)
         {
             try
             {
                 var result = await portRepo.GetPorts(query);
-
-                if (result == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return Ok(result);
-                }
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        [HttpGet("location")]
-        public async Task<IActionResult> GetByLocation(string city)
-        {
-            try
-            {
-                var result = await portRepo.GetPortByLocation(city);
 
                 if (result == null)
                 {

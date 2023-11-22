@@ -9,6 +9,10 @@ namespace FrisianPortsREST_API.Controllers
     {
         TransportRepository TransportRepo = new TransportRepository();
 
+        /// <summary>
+        /// Gets all transport items from the database
+        /// </summary>
+        /// <returns>Http Statuscode along with all transport</returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -29,6 +33,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Gets transport with the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of requested item</param>
+        /// <returns>Http Statuscode along with requested transport</returns>
         [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int Id)
         {
@@ -51,6 +60,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Adds an transport to the database
+        /// </summary>
+        /// <param name="transport">Item to be added to the database</param>
+        /// <return>Http Statuscode along with created transport</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Transport transport) 
         {
@@ -84,6 +98,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Deletes an transport from the database
+        /// </summary>
+        /// <param name="id">Id of transport to delete</param>
+        /// <returns>Http Statuscode dependent of success</returns>
         [HttpDelete]
         public IActionResult Delete(int id)
         {
@@ -107,6 +126,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updated an existing transport in the database
+        /// </summary>
+        /// <param name="transport">Updated object to replace old transport</param>
+        /// <returns>Http Statuscode based on success</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Transport transport) 
         {
@@ -138,6 +162,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets amount of transports connected to cargotransport
+        /// </summary>
+        /// <param name="Id">Id of Cargotransport</param>
+        /// <returns>Http Statuscode along with response</returns>
         [HttpGet("cargo-transport-count")]
         public async Task<IActionResult> GetCountInCargoTransport(int Id)
         {

@@ -9,6 +9,12 @@ namespace FrisianPortsREST_API.Controllers
     {
         CargoRepository cargoRepo = new CargoRepository();
 
+        /// <summary>
+        /// Gets all the cargo items available in the database
+        /// </summary>
+        /// <returns>
+        /// Http statuscode along with the objects if request succeeds
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -30,6 +36,13 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Gets the cargo item based on the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of the requested Item</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the requested resource
+        /// </returns>
         [HttpGet("{Id}")]  
         public async Task<IActionResult> Get(int Id)
         {
@@ -50,6 +63,13 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds an item to the database
+        /// </summary>
+        /// <param name="cargoToAdd">Item that gets added to database</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the created resource
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] Cargo cargoToAdd)
         {
@@ -82,6 +102,11 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an Item from the database based on the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of the item that should be deleted</param>
+        /// <returns>Http Statuscode based on the status of the request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
@@ -105,6 +130,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an already existing item in the database
+        /// </summary>
+        /// <param name="cargo">Updated item that replaces the old item</param>
+        /// <returns>Http statuscode based on the status of request</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Cargo cargo)
         {

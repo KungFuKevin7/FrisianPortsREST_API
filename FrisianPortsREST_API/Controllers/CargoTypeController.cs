@@ -9,7 +9,12 @@ namespace FrisianPortsREST_API.Controllers
     {
         public CargoTypeRepository cargoTypeRepo = new CargoTypeRepository();
 
-
+        /// <summary>
+        /// Gets all available cargotypes from database
+        /// </summary>
+        /// <returns>
+        /// Http Statuscode along with all cargotypes if request was successful
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -31,6 +36,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Gets cargotype with corresponding Id from database
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>Http status code along with requested cargotype</returns>
         [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int Id)
         {
@@ -52,6 +62,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Adds a cargotype to the database
+        /// </summary>
+        /// <param name="cargoType">Cargotype to add to the database</param>
+        /// <returns>Http statuscode along with newly created cargotype</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]CargoType cargoType)
         {
@@ -86,6 +101,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Deletes an cargotype with the corresponding Id
+        /// </summary>
+        /// <param name="Id">Id of cargotype that should be deleted</param>
+        /// <returns>Http Statuscode based on the status of request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
@@ -109,6 +129,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an already existing cargotype in the database
+        /// </summary>
+        /// <param name="cargoType">Updated cargotype to replace the old cargotype</param>
+        /// <returns>Http Statuscode based on the status of request</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]CargoType cargoType)
         {

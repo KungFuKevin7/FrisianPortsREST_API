@@ -9,7 +9,11 @@ namespace FrisianPortsREST_API.Controllers
     public class UsersController : Controller
     {
         UserRepository userRepo = new UserRepository();
-
+        
+        /// <summary>
+        /// Gets all users from the database
+        /// </summary>
+        /// <returns>Http Statuscode along with users</returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -30,6 +34,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Gets user based on received userId
+        /// </summary>
+        /// <param name="Id">Id of requested User</param>
+        /// <returns>Http Statuscode along with requested object</returns>
         [HttpGet("{Id}")]   
         public async Task<IActionResult> Get(int Id)
         {
@@ -50,6 +59,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Adds an item to the database
+        /// </summary>
+        /// <param name="user">User to be added</param>
+        /// <returns>Http Statuscode along with created user</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Users user)
         {
@@ -83,6 +97,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Deletes a user from the database
+        /// </summary>
+        /// <param name="Id">Id of user</param>
+        /// <returns>Http Statuscode based on success of request</returns>
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
@@ -106,6 +125,11 @@ namespace FrisianPortsREST_API.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an existing user in the database
+        /// </summary>
+        /// <param name="user">Updated user in the database</param>
+        /// <returns>Http Statuscode based on the response</returns>
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Users user)
         {

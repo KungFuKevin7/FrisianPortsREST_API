@@ -9,6 +9,12 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         CargoDistributionRepository cargoDistributionRepo =
             new CargoDistributionRepository();
 
+        /// <summary>
+        /// Gets the import cargo distribution of a port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <param name="period">Period to filter results</param>
+        /// <returns>Various Cargotypes along with weights imported</returns>
         [HttpGet("import")]
         public async Task<IActionResult> GetImportDistribution(int portId, int period)
         {
@@ -30,6 +36,12 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets the export cargo distribution of a port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <param name="period">Period to filter results</param>
+        /// <returns>Various Cargotypes along with weights exported</returns>
         [HttpGet("export")]
         public async Task<IActionResult> GetExportDistribution(int portId, int period)
         {
@@ -50,6 +62,13 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Cargo transported on a cargotransport
+        /// </summary>
+        /// <param name="Id">Id of requested Cargotransport</param>
+        /// <returns>
+        /// Cargo transported, weight and description on requested cargotransport
+        /// </returns>
         [HttpGet("cargo-transport")]
         public async Task<IActionResult> GetCargoDistributionCargoTransport(int Id)
         {
@@ -72,27 +91,13 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
 
-        [HttpGet("by-cargo-type")]
-        public async Task<IActionResult> GetCargoByType(int cargoTransportId)
-        {
-            try
-            {
-                var cargoDistribution = await cargoDistributionRepo.
-                    GetDistributionByCargoType(cargoTransportId);
-
-                if (cargoDistribution == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(cargoDistribution);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
+        /// <summary>
+        /// Gets Total transported cargo on cargoTransport
+        /// </summary>
+        /// <param name="cargoTransportId">Id of CargoTransport</param>
+        /// <returns>
+        /// Transported cargo from cargotransport (import and export)
+        /// </returns>
         [HttpGet("total-cargo-distribution")]
         public async Task<IActionResult> getTotalDistribution(int cargoTransportId)
         {

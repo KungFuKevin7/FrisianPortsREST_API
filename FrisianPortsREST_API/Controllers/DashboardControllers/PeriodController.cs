@@ -9,6 +9,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
         public PeriodRepository periodRepo = new PeriodRepository();
 
+        /// <summary>
+        /// Gets import and export per year for requested port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <returns>import and export per year for requested port</returns>
         [HttpGet("yearly-report")]
         public async Task<IActionResult> GetYearlyReport(int portId)
         {
@@ -24,6 +29,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets all the years, where data is available based on requested port
+        /// </summary>
+        /// <param name="portId">Id of requested port</param>
+        /// <returns>List of years where data is available</returns>
         [HttpGet("available-years")]
         public async Task<IActionResult> GetAvailibleYears(int portId) 
         {
