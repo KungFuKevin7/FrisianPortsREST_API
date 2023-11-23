@@ -7,7 +7,7 @@ namespace FrisianPortsREST_API.Repositories
     {
         public async Task<List<TransportedCargoDTO>> GetExport(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -41,7 +41,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<TransportedCargoDTO>> GetImport(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -75,7 +75,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<TransportedCargoDTO>> GetDistributionByCargoTransport(int cargoTransportId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -103,7 +103,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<TransportedCargoDTO>> GetDistributionByCargoType(int cargoTransportId) 
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 

@@ -13,7 +13,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargo contributing to the import of port</returns>
         public async Task<int> GetImportShips(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 string query = $@"SELECT COUNT(*) FROM TRANSPORT T
@@ -43,7 +43,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargo contributing to the export of port</returns>
         public async Task<int> GetExportShips(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 string query = $@"SELECT COUNT(*) FROM TRANSPORT T
@@ -75,7 +75,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargo contributing to the import of port</returns>
         public async Task<int> GetTotalImportWeight(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -107,7 +107,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargo contributing to the import of port</returns>
         public async Task<int> GetTotalExportWeight(int idOfPort, int period)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 

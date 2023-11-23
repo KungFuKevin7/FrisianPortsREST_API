@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Repositories;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
@@ -6,6 +7,13 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
     [Route("api/average")]
     public class AverageController : Controller
     {
+
+        private readonly ILoggerService _logger;
+
+        public AverageController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
 
         public AverageRepository avgRepo = new AverageRepository();
 
@@ -24,8 +32,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(avgImport);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -44,8 +53,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

@@ -9,7 +9,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<GoodsFlowDto>> GetGoodsFlows(string searchQuery)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 string dbQuery = $@"SELECT
                                     CT.CARGO_TRANSPORT_ID,
@@ -38,7 +38,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<GoodsFlowDto>> GetGoodsFlows(int portId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -66,7 +66,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<GoodsFlowDto> GetGoodsFlowsById(int cargoTransportId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 

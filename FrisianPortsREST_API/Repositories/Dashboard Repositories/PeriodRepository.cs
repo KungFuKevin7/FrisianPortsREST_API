@@ -13,7 +13,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of all availible years for port</returns>
         public async Task<List<int>> GetAllYears(int portId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -49,7 +49,7 @@ namespace FrisianPortsREST_API.Repositories
 
             var years = await GetAllYears(portId);
             
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = $@"SELECT

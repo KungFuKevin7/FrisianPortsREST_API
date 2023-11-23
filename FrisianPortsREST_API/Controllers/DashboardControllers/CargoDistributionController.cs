@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Repositories;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
@@ -6,6 +7,13 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
     [Route("api/cargo-distribution")]
     public class CargoDistributionController : Controller
     {
+        private readonly ILoggerService _logger;
+
+        public CargoDistributionController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         CargoDistributionRepository cargoDistributionRepo =
             new CargoDistributionRepository();
 
@@ -30,8 +38,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoDistribution);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -56,8 +65,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -84,8 +94,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoDistribution);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -98,7 +109,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <returns>
         /// Transported cargo from cargotransport (import and export)
         /// </returns>
-        [HttpGet("total-cargo-distribution")]
+        [HttpGet("total")]
         public async Task<IActionResult> getTotalDistribution(int cargoTransportId)
         {
             try
@@ -113,8 +124,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoDistribution);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

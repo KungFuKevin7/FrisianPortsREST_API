@@ -10,7 +10,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Add(Route routeToAdd)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string addQuery = @$"INSERT INTO ROUTE
@@ -32,7 +32,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public int Delete(int itemToRemove)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = @$"DELETE FROM ROUTE
@@ -49,7 +49,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Route>> Get()
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM ROUTE;";
@@ -62,7 +62,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Route> CheckCombinationExists(int? departPort, int? arrivalPort)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM ROUTE
@@ -80,7 +80,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Route> GetById(int idOfItem)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM ROUTE
@@ -98,7 +98,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(Route itemToUpdate)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string updateQuery = @$"UPDATE ROUTE

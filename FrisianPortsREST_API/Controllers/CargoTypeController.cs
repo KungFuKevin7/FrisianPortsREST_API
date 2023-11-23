@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,13 @@ namespace FrisianPortsREST_API.Controllers
     [Route("api/cargo-type")]
     public class CargoTypeController : Controller
     {
+        private readonly ILoggerService _logger;
+
+        public CargoTypeController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         public CargoTypeRepository cargoTypeRepo = new CargoTypeRepository();
 
         /// <summary>
@@ -29,8 +37,9 @@ namespace FrisianPortsREST_API.Controllers
                 
                 return Ok(cargoTypes);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -55,8 +64,9 @@ namespace FrisianPortsREST_API.Controllers
             
                 return Ok(cargoType);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -94,8 +104,9 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -122,8 +133,9 @@ namespace FrisianPortsREST_API.Controllers
                 }
                 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -159,8 +171,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was updated");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 

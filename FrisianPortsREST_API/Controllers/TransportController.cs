@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,14 @@ namespace FrisianPortsREST_API.Controllers
     [Route("api/transport")]
     public class TransportController : Controller
     {
+
+        private readonly ILoggerService _logger;
+
+        public TransportController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         TransportRepository TransportRepo = new TransportRepository();
 
         /// <summary>
@@ -26,8 +35,9 @@ namespace FrisianPortsREST_API.Controllers
 
                 return Ok(transports);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -52,9 +62,9 @@ namespace FrisianPortsREST_API.Controllers
                 
                 return Ok(transports);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -91,8 +101,9 @@ namespace FrisianPortsREST_API.Controllers
                 }
                
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -119,8 +130,9 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -156,8 +168,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was updated");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -167,7 +180,7 @@ namespace FrisianPortsREST_API.Controllers
         /// </summary>
         /// <param name="Id">Id of Cargotransport</param>
         /// <returns>Http Statuscode along with response</returns>
-        [HttpGet("cargo-transport-count")]
+        [HttpGet("count")]
         public async Task<IActionResult> GetCountInCargoTransport(int Id)
         {
             try
@@ -181,8 +194,9 @@ namespace FrisianPortsREST_API.Controllers
 
                 return Ok(transportCount);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

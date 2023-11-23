@@ -1,11 +1,20 @@
-﻿using FrisianPortsREST_API.Repositories;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
 {
     [Route("api/period")]
     public class PeriodController : Controller
     {
+
+        private readonly ILoggerService _logger;
+
+        public PeriodController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
 
         public PeriodRepository periodRepo = new PeriodRepository();
 
@@ -24,7 +33,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
                 return Ok(import);
             }
             catch (Exception e)
-            { Console.WriteLine(e.ToString());
+            {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -43,8 +53,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(years);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

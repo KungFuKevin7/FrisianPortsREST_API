@@ -1,6 +1,5 @@
 ﻿namespace FrisianPortsREST_API.DTO
 {
-    //User without password 
     public class UserDto
     {
         public int User_Id { get; set; }

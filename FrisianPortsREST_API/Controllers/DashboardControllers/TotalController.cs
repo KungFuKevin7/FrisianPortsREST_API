@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Repositories;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
@@ -6,6 +7,14 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
     [Route("api/total")]
     public class TotalController : Controller
     {
+
+        private readonly ILoggerService _logger;
+
+        public TotalController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         public TotalRepository totalRepo =
             new TotalRepository();
 
@@ -15,7 +24,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="portId">Id of requested port</param>
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the import</returns>
-        [HttpGet("import")]
+        [HttpGet("import-ship-movement")]
         public async Task<IActionResult> GetImportShips(int portId, int period)
         {
             try
@@ -24,8 +33,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -36,7 +46,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="portId">Id of requested port</param>
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the export</returns>
-        [HttpGet("export")]
+        [HttpGet("export-ship-movement")]
         public async Task<IActionResult> GetExportShips(int portId, int period)
         {
             try
@@ -45,8 +55,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -66,8 +77,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -87,8 +99,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

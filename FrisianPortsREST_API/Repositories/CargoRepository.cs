@@ -9,7 +9,7 @@ namespace FrisianPortsREST_API.Repositories
         ///<inheritdoc/>
         public async Task<int> Add(Cargo cargoToAdd)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -33,7 +33,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public int Delete(int idOfCargoToRemove)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = $@"DELETE FROM Cargo
@@ -51,7 +51,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Cargo>> Get()
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -64,7 +64,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Cargo> GetById(int idOfCargo)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = @$"SELECT * FROM Cargo
@@ -81,7 +81,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(Cargo cargoToUpdate)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string updateQuery = @$"UPDATE Cargo

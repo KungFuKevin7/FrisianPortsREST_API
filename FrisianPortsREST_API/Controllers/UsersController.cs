@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -8,8 +9,15 @@ namespace FrisianPortsREST_API.Controllers
     [Route("api/users")]
     public class UsersController : Controller
     {
+        private readonly ILoggerService _logger;
+
+        public UsersController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         UserRepository userRepo = new UserRepository();
-        
+       
         /// <summary>
         /// Gets all users from the database
         /// </summary>
@@ -27,8 +35,9 @@ namespace FrisianPortsREST_API.Controllers
 
                 return Ok(users);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -52,8 +61,9 @@ namespace FrisianPortsREST_API.Controllers
 
                 return Ok(user);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -90,8 +100,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was updated");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -118,8 +129,9 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -155,8 +167,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was updated");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 

@@ -9,7 +9,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Add(Transport transportToAdd)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string addQuery = @$"INSERT INTO TRANSPORT
@@ -31,7 +31,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public int Delete(int idToRemove)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = @$"DELETE FROM TRANSPORT
@@ -49,7 +49,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Transport>> Get()
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM TRANSPORT;";
@@ -62,7 +62,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Transport> GetById(int idOfItem)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM TRANSPORT
@@ -81,7 +81,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(Transport itemToUpdate)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string updateQuery = @$"UPDATE TRANSPORT
@@ -104,7 +104,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> GetCountInCargoTransport(int idOfItem)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT COUNT(*) FROM cargotransport CT

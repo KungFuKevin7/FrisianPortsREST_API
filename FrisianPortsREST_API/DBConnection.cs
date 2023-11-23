@@ -9,9 +9,14 @@ namespace FrisianPortsREST_API
 
         public DBConnection() { }
 
-        public static MySqlConnection getConnection()
+        public static MySqlConnection GetConnection()
         {
             return new MySqlConnection(ConfigurationManager.ConnectionStrings["conString"].ConnectionString);
+        }
+
+        public static MySqlConnection GetConnection(string connectionString)
+        {
+            return new MySqlConnection(connectionString);
         }
 
     }

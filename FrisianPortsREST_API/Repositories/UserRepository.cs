@@ -7,11 +7,11 @@ namespace FrisianPortsREST_API.Repositories
     public class UserRepository : IRepository<Users>
     {
 
-        public static MySqlConnection connection = DBConnection.getConnection();
+        public static MySqlConnection connection = DBConnection.GetConnection();
 
         public async Task<int> Add(Users itemToAdd)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string addQuery = @$"INSERT INTO USERS
@@ -36,7 +36,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public int Delete(int itemToRemove)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string query = @$"DELETE FROM USERS
@@ -54,7 +54,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Users>> Get()
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM USERS;";
@@ -67,7 +67,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Users> GetById(int idOfItem)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string getQuery = @$"SELECT * FROM USERS
@@ -85,7 +85,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(Users userUpdate)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
                 const string updateQuery = @$"UPDATE USERS

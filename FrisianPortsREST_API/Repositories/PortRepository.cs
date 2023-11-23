@@ -10,7 +10,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Port>> Get() 
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 const string query = "SELECT * FROM Port;";
                 var list = await connection.QueryAsync<Port>(query);
@@ -21,7 +21,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Port> GetById(int portId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 const string query = @$"SELECT * FROM Port
                                         WHERE PORT_ID = @portId;";
@@ -37,7 +37,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Add(Port portToAdd)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 const string query = $@"INSERT INTO Port
                                     (PORT_NAME, PORT_LOCATION, LATITUDE, LONGITUDE)
@@ -59,7 +59,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public int Delete(int idOfPort)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 const string query = $@"DELETE FROM Port
                                     WHERE PORT_ID = @PortId";
@@ -76,7 +76,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<int> Update(Port portToUpdate)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 const string query = $@"UPDATE Port
                                     SET PORT_NAME = @PortName,
@@ -101,7 +101,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<List<Port>> GetPorts(string searchQuery)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 string dbQuery = $@"SELECT * FROM Port
                               WHERE Port_Name LIKE @Query
@@ -121,7 +121,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<Port> GetPortByLocation(string location)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 string dbQuery = $@"SELECT * FROM Port
                                     WHERE Port_Location = @Query";
@@ -143,7 +143,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargoTransports contributing to import</returns>
         public async Task<List<CargoTransport>> GetImportShipsByPortId(int idOfPort)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -168,7 +168,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <returns>List of cargoTransports contributing to export</returns>
         public async Task<List<CargoTransport>> GetExportShipsByPortId(int idOfPort)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 

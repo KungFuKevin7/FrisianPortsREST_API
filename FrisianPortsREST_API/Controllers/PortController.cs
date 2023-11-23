@@ -1,14 +1,21 @@
-﻿using FrisianPortsREST_API.Models;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Models;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace FrisianPortsREST_API.Controllers
 {
-    [Route("api/port")]
+    [Route("api/ports")]
     public class PortController : Controller
     {
-
+        private readonly ILoggerService _logger;
+     
+        public PortController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+        
         PortRepository portRepo = new PortRepository();
 
         /// <summary>
@@ -32,8 +39,9 @@ namespace FrisianPortsREST_API.Controllers
                 return Ok(ports);
             
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -59,8 +67,9 @@ namespace FrisianPortsREST_API.Controllers
 
                 return Ok(port);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -97,8 +106,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was added");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -133,8 +143,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was updated");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -159,8 +170,9 @@ namespace FrisianPortsREST_API.Controllers
                     throw new Exception("Nothing was deleted");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -173,7 +185,7 @@ namespace FrisianPortsREST_API.Controllers
         /// <returns>
         /// Items containing the characters of query somewhere in their name
         /// </returns>
-        [HttpGet("search")]
+        [HttpGet("name")]
         public async Task<IActionResult> GetPorts(string query)
         {
             try
@@ -189,8 +201,9 @@ namespace FrisianPortsREST_API.Controllers
                     return Ok(result);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

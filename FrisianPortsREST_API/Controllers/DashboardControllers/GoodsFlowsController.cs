@@ -1,4 +1,5 @@
-﻿using FrisianPortsREST_API.Repositories;
+﻿using FrisianPortsREST_API.Error_Logger;
+using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
@@ -6,6 +7,14 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
     [Route("api/flow-of-goods")]
     public class GoodsFlowsController : Controller
     {
+
+        private readonly ILoggerService _logger;
+
+        public GoodsFlowsController(ILoggerService logger)
+        {
+            _logger = logger;
+        }
+
         public GoodsFlowRepository goodsFlowRepo =
             new GoodsFlowRepository();
 
@@ -24,8 +33,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoTransports);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -35,7 +45,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// </summary>
         /// <param name="query">Search query</param>
         /// <returns>Flow-of-goods matching parts of the query</returns>
-        [HttpGet("search")]
+        [HttpGet("name")]
         public async Task<IActionResult> GetWithSearch(string query)
         {
             try
@@ -45,8 +55,9 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
 
                 return Ok(cargoTransports);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -70,7 +81,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

@@ -6,7 +6,7 @@ namespace FrisianPortsREST_API.Repositories
     {
         public async Task<double> GetAverageExportWeight(int portId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
@@ -28,7 +28,7 @@ namespace FrisianPortsREST_API.Repositories
 
         public async Task<double> GetAverageImportWeight(int portId)
         {
-            using (var connection = DBConnection.getConnection())
+            using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
 
