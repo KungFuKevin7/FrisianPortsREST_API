@@ -12,7 +12,6 @@
     "FrisianPortsREST_API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7071;http://localhost:5296",
       "launchBrowser": false,

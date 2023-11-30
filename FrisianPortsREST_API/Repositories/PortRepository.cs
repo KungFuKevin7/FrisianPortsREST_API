@@ -106,7 +106,7 @@ namespace FrisianPortsREST_API.Repositories
                 string dbQuery = $@"SELECT * FROM Port
                               WHERE Port_Name LIKE @Query
                               OR    Port_Location LIKE @Query";
-
+                
                 searchQuery = $"%{searchQuery}%";
 
                 var portResults = await connection.QueryAsync<Port>(dbQuery,
@@ -118,6 +118,30 @@ namespace FrisianPortsREST_API.Repositories
                 return portResults.ToList();
             }
         }
+        public async Task<List<Port>> GetPortsWithFilters(string searchQuery, string[] filters)
+        {
+            using (var connection = DBConnection.GetConnection())
+            {
+                string dbQuery = $@"SELECT Port.* FROM Port
+                                 INNER JOIN Province Pro
+                                 ON Port.PROVINCE_ID = Pro.PROVINCE_ID
+                                 WHERE (Port.PORT_LOCATION LIKE @Query
+                                 OR    Port.PORT_NAME LIKE @Query)
+                                 AND Pro.PROVINCE_NAME IN @Filter";
+
+                searchQuery = $"%{searchQuery}%";
+
+                var portResult = await connection.QueryAsync<Port>(dbQuery,
+                new
+                {
+                    Query = searchQuery,
+                    Filter = filters
+                });
+
+                return portResult.ToList();
+            }
+        }
+
 
         public async Task<Port> GetPortByLocation(string location)
         {

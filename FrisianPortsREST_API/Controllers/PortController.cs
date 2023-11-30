@@ -208,5 +208,36 @@ namespace FrisianPortsREST_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all ports that contain the searchquery in their name
+        /// </summary>
+        /// <param name="query">search query to search for</param>
+        /// <param name="provinces">provinces to filter the results</param>
+        /// <returns>
+        /// Items containing the characters of query somewhere in their name
+        /// </returns>
+        [HttpGet("name/filtered")]
+        public async Task<IActionResult> GetPortsUsingFilters(string query, string[] provinces)
+        {
+            try
+            {
+                var result = await portRepo.GetPortsWithFilters(query, provinces);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }
