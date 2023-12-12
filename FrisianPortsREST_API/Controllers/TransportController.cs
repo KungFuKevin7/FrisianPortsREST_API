@@ -90,7 +90,7 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
                 int transportId = await TransportRepo.Add(transport);
-                transport.Transport_Id = transportId;
+                transport.TransportId = transportId;
                 if (transportId > 0)
                 {
                     return StatusCode(StatusCodes.Status201Created, transport);

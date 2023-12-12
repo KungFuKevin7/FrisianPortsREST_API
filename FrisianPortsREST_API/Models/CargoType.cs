@@ -4,10 +4,22 @@ namespace FrisianPortsREST_API.Models
 {
     public class CargoType
     {
-        public int Cargo_Type_Id { get; set; }
+        private int _cargoTypeId;
+
+        private string? _cargoTypeName;
+
+        public int CargoTypeId
+        {
+            get { return _cargoTypeId; }
+            set { _cargoTypeId = value; }
+        }
 
         [Required]
         [MaxLength(50)]
-        public string? Cargo_Type_Name { get; set; }
+        public string CargoTypeName
+        {
+            get { return _cargoTypeName; }
+            set { _cargoTypeName = value; }
+        }
     }
 }

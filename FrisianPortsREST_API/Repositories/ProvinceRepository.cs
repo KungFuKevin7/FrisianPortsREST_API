@@ -19,7 +19,7 @@ namespace FrisianPortsREST_API.Repositories
                 int idOfCreated = await connection.ExecuteScalarAsync<int>(addQuery,
                    new
                    {
-                       ProvinceName = newProvince.Province_Name
+                       ProvinceName = newProvince.ProvinceName
                    });
                 connection.Close();
                 return idOfCreated;
@@ -84,8 +84,8 @@ namespace FrisianPortsREST_API.Repositories
                 int success = await connection.ExecuteAsync(updateQuery,
                    new
                    {
-                       ProvinceName = updatedProvince.Province_Name,
-                       ProvinceId = updatedProvince.Province_Id,
+                       ProvinceName = updatedProvince.ProvinceName,
+                       ProvinceId = updatedProvince.ProvinceId,
                    });
 
                 return success;

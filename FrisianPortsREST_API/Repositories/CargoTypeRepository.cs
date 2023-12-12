@@ -21,7 +21,7 @@ namespace FrisianPortsREST_API.Repositories
                 int idNewItem = await connection.ExecuteScalarAsync<int>(addQuery,
                    new
                    {
-                       CargoTypeName = cargoTypeToAdd.Cargo_Type_Name
+                       CargoTypeName = cargoTypeToAdd.CargoTypeName
                    });
 
                 return idNewItem;
@@ -90,8 +90,8 @@ namespace FrisianPortsREST_API.Repositories
                 int success = await connection.ExecuteAsync(updateQuery,
                    new
                    {
-                       CargoTypeName = itemToUpdate.Cargo_Type_Name,
-                       CargoTypeId = itemToUpdate.Cargo_Type_Id,
+                       CargoTypeName = itemToUpdate.CargoTypeName,
+                       CargoTypeId = itemToUpdate.CargoTypeId,
                    });
                 connection.Close();
 

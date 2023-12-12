@@ -92,7 +92,7 @@ namespace FrisianPortsREST_API.Controllers
 
                 if (newUserId > 0)
                 {
-                    user.User_Id = newUserId;
+                    user.UserId = newUserId;
                     return StatusCode(StatusCodes.Status201Created, user);
                 }
                 else

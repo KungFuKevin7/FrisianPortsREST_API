@@ -47,8 +47,8 @@ namespace FrisianPortsREST_API.Repositories
                 int idOfCreatedItem = await connection.ExecuteScalarAsync<int>(query,
                     new
                     {
-                        PortName = portToAdd.Port_Name,
-                        PortLocation = portToAdd.Port_Location,
+                        PortName = portToAdd.PortName,
+                        PortLocation = portToAdd.PortLocation,
                         Latitude = portToAdd.Latitude,
                         Longitude = portToAdd.Longitude
                     });
@@ -88,11 +88,11 @@ namespace FrisianPortsREST_API.Repositories
                 int success = await connection.ExecuteAsync(query,
                     new
                     {
-                        PortName = portToUpdate.Port_Name,
-                        PortLocation = portToUpdate.Port_Location,
+                        PortName = portToUpdate.PortName,
+                        PortLocation = portToUpdate.PortLocation,
                         Latitude = portToUpdate.Latitude,
                         Longitude = portToUpdate.Longitude,
-                        PortId = portToUpdate.Port_Id
+                        PortId = portToUpdate.PortId
                     });
                 connection.Close();
                 return success;

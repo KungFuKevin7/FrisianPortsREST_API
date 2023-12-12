@@ -4,26 +4,63 @@ namespace FrisianPortsREST_API.Models
 {
     public class Users
     {
-        public int User_Id { get; set; }
+        private int _userId;
+
+        private string? _email;
+
+        private string? _password;
+
+        private string? _firstname;
+
+        private string? _surname;
+
+        private bool _permissionAddCargo;
+
+
+        public int UserId
+        {
+            get { return _userId; }
+            set { _userId = value; }
+        }
 
         [Required]
         [EmailAddress]
         [MaxLength(100)]
-        public string? Email { get; set;}
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
 
         [Required]
         [MaxLength(50)]
-        public string? Password { get; set;}
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; }
+        }
 
         [Required]
         [MaxLength(50)]
-        public string? FirstName { get; set;}
+        public string FirstName
+        {
+            get { return _firstname; }
+            set { _firstname = value;}
+        }
 
         [Required]
         [MaxLength(50)]
-        public string? SurName { get; set;}
+        public string SurName
+        {
+            get { return _surname; }
+            set { _surname = value; }
+        }
 
         [Required]
-        public bool Permission_Add_Cargo { get; set;}
+        public bool PermissionAddCargo
+        {
+            get { return _permissionAddCargo; }
+            set { _permissionAddCargo = value; }
+        }
     }
 }

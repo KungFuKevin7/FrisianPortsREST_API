@@ -98,7 +98,7 @@ namespace FrisianPortsREST_API.Controllers
 
                 if (createdId > 0)
                 {
-                    provinceToAdd.Province_Id = createdId;
+                    provinceToAdd.ProvinceId = createdId;
                     return StatusCode(StatusCodes.Status201Created,
                                       provinceToAdd);
                 }

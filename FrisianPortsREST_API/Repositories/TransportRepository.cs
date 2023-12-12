@@ -21,8 +21,8 @@ namespace FrisianPortsREST_API.Repositories
                 int idOfItem = await connection.ExecuteAsync(addQuery,
                    new
                    {
-                       CargoTransportId = transportToAdd.Cargo_Transport_Id,
-                       DepartureDate = transportToAdd.Departure_Date
+                       CargoTransportId = transportToAdd.CargoTransportId,
+                       DepartureDate = transportToAdd.DepartureDate
                    });
 
                 return idOfItem;
@@ -93,9 +93,9 @@ namespace FrisianPortsREST_API.Repositories
                 int success = await connection.ExecuteAsync(updateQuery,
                    new
                    {
-                       CargoTransportId = itemToUpdate.Cargo_Transport_Id,
-                       DepartureDate = itemToUpdate.Departure_Date,
-                       TransportId = itemToUpdate.Transport_Id
+                       CargoTransportId = itemToUpdate.CargoTransportId,
+                       DepartureDate = itemToUpdate.DepartureDate,
+                       TransportId = itemToUpdate.TransportId
                    });
       
                 return success;

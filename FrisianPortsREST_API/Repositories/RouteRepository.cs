@@ -22,8 +22,8 @@ namespace FrisianPortsREST_API.Repositories
                 int newId = await connection.ExecuteScalarAsync<int>(addQuery,
                    new
                    {
-                       DeparturePortId = routeToAdd.Departure_Port_Id,
-                       ArrivalPortId = routeToAdd.Arrival_Port_Id
+                       DeparturePortId = routeToAdd.DeparturePortId,
+                       ArrivalPortId = routeToAdd.ArrivalPortId
                    });
 
                 return newId;
@@ -110,9 +110,9 @@ namespace FrisianPortsREST_API.Repositories
                 int success = await connection.ExecuteAsync(updateQuery,
                    new
                    {
-                       DeparturePortId = itemToUpdate.Departure_Port_Id,
-                       ArrivalPortId = itemToUpdate.Arrival_Port_Id,
-                       RouteId = itemToUpdate.Route_Id
+                       DeparturePortId = itemToUpdate.DeparturePortId,
+                       ArrivalPortId = itemToUpdate.ArrivalPortId,
+                       RouteId = itemToUpdate.RouteId
                    });
 
                 return success;

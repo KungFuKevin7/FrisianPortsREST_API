@@ -97,7 +97,7 @@ namespace FrisianPortsREST_API.Controllers
 
                 if (createdPort != 0)
                 {
-                    port.Port_Id = createdPort;
+                    port.PortId = createdPort;
                     return StatusCode(StatusCodes.Status201Created, port);
                 }
                     

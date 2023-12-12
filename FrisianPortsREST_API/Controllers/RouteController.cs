@@ -88,13 +88,13 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
                 Route existingRoute = routeRepo.CheckCombinationExists
-                    (route.Departure_Port_Id, route.Arrival_Port_Id).Result;
+                    (route.DeparturePortId, route.ArrivalPortId).Result;
 
             
                 if (existingRoute == null) //If Route does not exist yet, add
                 {
                     int idOfNewRoute = await routeRepo.Add(route);
-                    route.Route_Id = idOfNewRoute;
+                    route.RouteId = idOfNewRoute;
 
                     if (idOfNewRoute > 0)
                     {

@@ -4,10 +4,23 @@ namespace FrisianPortsREST_API.Models
 {
     public class Province
     {
-        public int Province_Id { get; set; }
+        private int _provinceId;
+
+        private string _provinceName;
+
+
+        public int ProvinceId 
+        {
+            get { return _provinceId; } 
+            set { _provinceId = value; } 
+        }
 
         [Required]
         [MaxLength(30)]
-        public string Province_Name { get; set; }
+        public string ProvinceName 
+        {
+            get { return _provinceName; }
+            set { _provinceName = value; }
+        }
     }
 }

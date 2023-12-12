@@ -7,20 +7,50 @@ namespace FrisianPortsREST_API.Models
     public class CargoTransport
     {
 
-        public int Cargo_Transport_Id { get; set; }
+        private int _cargoTransportId;
+
+        private string? _Frequency;
+
+        private DateTime? _dateStarted;
+
+        private int? _addedById;
+
+        private int? _routeId;
+        
+
+        public int CargoTransportId 
+        { 
+            get { return _cargoTransportId; }
+            set { _cargoTransportId = value;}
+        }
 
         [Required]
         [MaxLength(20)]
-        public string? Frequency { get; set; }
+        public string Frequency 
+        {
+            get { return _Frequency; }
+            set { _Frequency = value; }
+        }
 
         [Required]
-        public DateTime? Date_Started { get; set; }
+        public DateTime? DateStarted 
+        {
+            get { return _dateStarted; }
+            set { _dateStarted = value; }
+        }
 
         [Required]
-        public int? Added_By_Id { get; set; }
+        public int? AddedById
+        {
+            get { return _addedById; }
+            set { _addedById = value; }
+        }
 
         [Required]
-        public int? Route_Id { get; set; }
-
+        public int? RouteId
+        {
+            get { return _routeId; }
+            set { _routeId = value; }
+        }
     }
 }

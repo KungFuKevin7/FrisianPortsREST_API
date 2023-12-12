@@ -4,12 +4,33 @@ namespace FrisianPortsREST_API.Models
 {
     public class Route
     {
-        public int Route_Id { get; set; }
+        private int _routeId;
+
+        private int? _departurePortId;
+
+        private int? _arrivalPortId;
+
+
+
+        public int RouteId 
+        {
+            get { return _routeId; }
+            set { _routeId = value; }
+        }
 
         [Required]
-        public int? Departure_Port_Id { get; set; }
+        public int? DeparturePortId
+        {
+            get { return _departurePortId; }
+            set { _departurePortId = value; }
+        }
 
         [Required]
-        public int? Arrival_Port_Id { get; set; }
+        public int? ArrivalPortId
+        {
+            get { return _arrivalPortId; }
+            set { _arrivalPortId = value; }
+        }
     } 
+
 }

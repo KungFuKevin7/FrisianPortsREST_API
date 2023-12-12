@@ -27,7 +27,7 @@ namespace FrisianPortsREST_API.Repositories
                        Password = itemToAdd.Password,
                        FirstName = itemToAdd.FirstName,
                        SurName = itemToAdd.SurName,
-                       PermissionAddCargo = itemToAdd.Permission_Add_Cargo
+                       PermissionAddCargo = itemToAdd.PermissionAddCargo
                    });
 
                 return idNewUser;
@@ -104,8 +104,8 @@ namespace FrisianPortsREST_API.Repositories
                        Password = userUpdate.Password,
                        FirstName = userUpdate.FirstName,
                        SurName = userUpdate.SurName,
-                       Permission = userUpdate.Permission_Add_Cargo,
-                       UserId = userUpdate.User_Id
+                       Permission = userUpdate.PermissionAddCargo,
+                       UserId = userUpdate.UserId
                    });
              
                 return success;

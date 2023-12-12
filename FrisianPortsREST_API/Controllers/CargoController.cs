@@ -98,7 +98,7 @@ namespace FrisianPortsREST_API.Controllers
 
                 if (createdId > 0)
                 {
-                   cargoToAdd.Cargo_Id = createdId;
+                   cargoToAdd.CargoId = createdId;
                    return StatusCode(StatusCodes.Status201Created,cargoToAdd);
                 }
                 else
