@@ -16,8 +16,10 @@ builder.Services.AddCors(options =>     //To Remove from deployment
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder .Services.AddSwaggerGen();
 
+//Dapper ORM will match names with underscores
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 //Configure Logging
 //Single Logging Instance for plugging into DI container

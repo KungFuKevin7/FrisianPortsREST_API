@@ -26,7 +26,7 @@ namespace FrisianPortsREST_API.Repositories
                         cargoTypeId = cargoToAdd.CargoTypeId,
                         transportId = cargoToAdd.TransportId
                     });
-                connection.Close();
+                connection.Close(); 
                 return createdId;
             }
         }
@@ -44,7 +44,6 @@ namespace FrisianPortsREST_API.Repositories
                     {
                         cargoId = idOfCargoToRemove
                     });
-                //connection.Close();
                 return success;
             }
         }

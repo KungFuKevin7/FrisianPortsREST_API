@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
 {
-    [Route("api/cargo-distribution")]
-    public class CargoDistributionController : Controller
+    [Route("api/cargo-distribution/port")]
+    public class CargoDistributionPortController : Controller
     {
         private readonly ILoggerService _logger;
 
-        public CargoDistributionController(ILoggerService logger)
+        public CargoDistributionPortController(ILoggerService logger)
         {
             _logger = logger;
         }
 
-        CargoDistributionRepository cargoDistributionRepo =
-            new CargoDistributionRepository();
+        CargoDistributionPortRepository cargoDistributionRepo =
+            new CargoDistributionPortRepository();
 
         /// <summary>
         /// Gets the import cargo distribution of a port

@@ -8,6 +8,9 @@ namespace FrisianPortsREST_API.Models
 
         private string _provinceName;
 
+        private string _latitude;
+
+        private string _longitude;
 
         public int ProvinceId 
         {
@@ -21,6 +24,18 @@ namespace FrisianPortsREST_API.Models
         {
             get { return _provinceName; }
             set { _provinceName = value; }
+        }
+
+        public string Latitude
+        {
+            get { return _latitude; }
+            set { _latitude = value; }
+        }
+
+        public string Longitude
+        {
+            get { return _longitude; }
+            set { _longitude = value; }
         }
     }
 }

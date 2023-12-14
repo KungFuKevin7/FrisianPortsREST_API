@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers
 {
-    [Route("api/cargo-transports")]
+    [Route("api/cargo-transport")]
     public class CargoTransportController : Controller
     {
         private readonly ILoggerService _logger;

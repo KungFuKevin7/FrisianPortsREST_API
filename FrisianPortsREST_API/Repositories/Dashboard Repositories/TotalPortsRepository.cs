@@ -3,7 +3,7 @@ using FrisianPortsREST_API.Models;
 
 namespace FrisianPortsREST_API.Repositories
 {
-    public class TotalRepository
+    public class TotalPortsRepository
     {
 
         /// <summary>

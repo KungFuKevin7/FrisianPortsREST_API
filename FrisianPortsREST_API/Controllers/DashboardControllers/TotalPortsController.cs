@@ -4,19 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
 {
-    [Route("api/total")]
-    public class TotalController : Controller
+    [Route("api/port/total")]
+    public class TotalPortsController : Controller
     {
 
         private readonly ILoggerService _logger;
 
-        public TotalController(ILoggerService logger)
+        public TotalPortsController(ILoggerService logger)
         {
             _logger = logger;
         }
 
-        public TotalRepository totalRepo =
-            new TotalRepository();
+        public TotalPortsRepository totalRepo =
+            new TotalPortsRepository();
 
         /// <summary>
         /// Gets amount of ships contributing to the import of requested port

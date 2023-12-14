@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers
 {
-    [Route("api/ports")]
+    [Route("api/port")]
     public class PortController : Controller
     {
         private readonly ILoggerService _logger;
@@ -37,7 +37,6 @@ namespace FrisianPortsREST_API.Controllers
                 }
 
                 return Ok(ports);
-            
             }
             catch (Exception e)
             {
