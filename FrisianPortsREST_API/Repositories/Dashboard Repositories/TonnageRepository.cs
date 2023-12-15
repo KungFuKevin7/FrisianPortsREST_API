@@ -1,81 +1,80 @@
 ﻿using Dapper;
-using FrisianPortsREST_API.Models;
 
-namespace FrisianPortsREST_API.Repositories
+namespace FrisianPortsREST_API.Repositories.Dashboard_Repositories
 {
-    public class TotalProvinceRepository
+    public class TonnageRepository
     {
         /// <summary>
-        /// Gets List of total imported cargo.
+        /// Gets total imported cargo in tonnes.
         /// </summary>
-        /// <param name="idOfProvince">Id of requested province</param>
-        /// <returns>Shipmovements contributing to the import of province</returns>
-        public async Task<int> GetImportShips(int idOfProvince, int period)
+        /// <param name="idOfPort">Id of requested port</param>
+        /// <returns>List of cargo contributing to the import of port</returns>
+        public async Task<int> GetPortImportTonnage(int idOfPort, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
-                string query = $@"SELECT COUNT(*) FROM TRANSPORT T
-                                INNER JOIN CARGOTRANSPORT CT ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
-                                INNER JOIN ROUTE R ON CT.ROUTE_ID = R.ROUTE_ID
-                                INNER JOIN PORT P ON R.ARRIVAL_PORT_ID = P.PORT_ID
-                                WHERE P.PROVINCE_ID = @ProvinceId";
+
+                string query = $@"SELECT SUM(C.WEIGHT_IN_TONNES) FROM CargoTransport CT 
+                INNER JOIN Transport T ON CT.CARGO_TRANSPORT_ID = T.CARGO_TRANSPORT_ID
+                INNER JOIN Route R ON CT.ROUTE_ID = R.ROUTE_ID
+                INNER JOIN Cargo C ON T.TRANSPORT_ID = C.TRANSPORT_ID
+                WHERE R.ARRIVAL_PORT_ID = @ArrivalId";
+
                 if (period != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod;";
+                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod";
                 }
 
-                var totalShipMovements = await connection.ExecuteScalarAsync<int>(query,
+                var totalWeight = await connection.ExecuteScalarAsync<int>(query,
                     new
                     {
-                        ProvinceId = idOfProvince,
+                        ArrivalId = idOfPort,
                         selectedPeriod = period
                     });
-
-                return totalShipMovements;
+                return totalWeight;
             }
         }
 
         /// <summary>
-        /// Gets List of total exported cargo.
+        /// Gets total exported cargo in tonnes.
         /// </summary>
-        /// <param name="idOfProvince">Id of requested province</param>
-        /// <returns>Shipmovements contributing to the export of province</returns>
-        public async Task<int> GetExportShips(int idOfProvince, int period)
+        /// <param name="idOfPort">Id of requested port</param>
+        /// <returns>List of cargo contributing to the import of port</returns>
+        public async Task<int> GetPortExportTonnage(int idOfPort, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
-                string query = $@"SELECT COUNT(*) FROM TRANSPORT T
-                                INNER JOIN CARGOTRANSPORT CT ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
-                                INNER JOIN ROUTE R ON CT.ROUTE_ID = R.ROUTE_ID
-                                INNER JOIN PORT P ON R.DEPARTURE_PORT_ID = P.PORT_ID
-                                INNER JOIN PROVINCE PR ON P.PROVINCE_ID = PR.PROVINCE_ID
-                                WHERE PR.PROVINCE_ID = @ProvinceId";
+
+                string query = $@"SELECT SUM(C.WEIGHT_IN_TONNES) FROM CargoTransport CT 
+                INNER JOIN Transport T ON CT.CARGO_TRANSPORT_ID = T.CARGO_TRANSPORT_ID
+                INNER JOIN Route R ON CT.ROUTE_ID = R.ROUTE_ID
+                INNER JOIN Cargo C ON T.TRANSPORT_ID = C.TRANSPORT_ID
+                WHERE R.DEPARTURE_PORT_ID = @DepartureId";
 
                 if (period != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod;";
+                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod";
                 }
 
-                var totalShipMovements = await connection.ExecuteScalarAsync<int>(query,
+                var totalWeight = await connection.ExecuteScalarAsync<int>(query,
                     new
                     {
-                        ProvinceId = idOfProvince,
+                        DepartureId = idOfPort,
                         selectedPeriod = period
                     });
 
-                return totalShipMovements;
+                return totalWeight;
             }
         }
-
 
         /// <summary>
         /// Gets total imported cargo in tonnes.
         /// </summary>
         /// <param name="idOfProvince">Id of requested province</param>
         /// <returns>Total Cargo weight contributing to the import of province</returns>
-        public async Task<int> GetTotalImportWeight(int idOfProvince, int period)
+        public async Task<int> GetProvinceImportTonnage(int idOfProvince, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -108,7 +107,7 @@ namespace FrisianPortsREST_API.Repositories
         /// </summary>
         /// <param name="idOfProvince">Id of requested province</param>
         /// <returns>Total Cargo weight contributing to the export of province</returns>
-        public async Task<int> GetTotalExportWeight(int idOfProvince, int period)
+        public async Task<int> GetProvinceExportTonnage(int idOfProvince, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -143,7 +142,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <param name="idOfProvince">Id Of requested Province</param>
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage transported inside the province</returns>
-        public async Task<int> GetTonnageTransportInProvince(int idOfProvince, int period)
+        public async Task<int> GetTonnageInsideProvince(int idOfProvince, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -176,7 +175,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <param name="idOfProvince">Id Of requested Province</param>
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage originating from outside province</returns>
-        public async Task<int> GetImportFromOutsideProvince(int idOfProvince, int period)
+        public async Task<int> GetTonnageFromOutsideProvince(int idOfProvince, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -210,7 +209,7 @@ namespace FrisianPortsREST_API.Repositories
         /// <param name="idOfProvince">Id Of requested Province</param>
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage transported to outside of the province</returns>
-        public async Task<int> ExportToOutsideProvince(int idOfProvince, int period)
+        public async Task<int> GetTonnageToOutsideProvince(int idOfProvince, int period)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -237,88 +236,5 @@ namespace FrisianPortsREST_API.Repositories
                 return totalTransport;
             }
         }
-
-        public async Task<int> GetTransportsInProvince(int provinceId, int period)
-        {
-            using (var connection = DBConnection.GetConnection())
-            {
-                connection.Open();
-                string query = $@"SELECT COUNT(*) FROM TRANSPORT T
-                                INNER JOIN CARGOTRANSPORT CT ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
-                                INNER JOIN ROUTE R ON CT.ROUTE_ID = R.ROUTE_ID
-                                WHERE (R.DEPARTURE_PORT_ID IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))
-                                AND (R.ARRIVAL_PORT_ID IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))";
-
-                if (period != 0)
-                {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod;";
-                }
-
-                var totalTransport = await connection.ExecuteScalarAsync<int>(query,
-                    new
-                    {
-                        ProvinceId = provinceId,
-                        selectedPeriod = period
-                    });
-
-                return totalTransport;
-            }
-        }
-
-        public async Task<int> GetTransportsImportFromOutside(int provinceId, int period)
-        {
-            using (var connection = DBConnection.GetConnection())
-            {
-                connection.Open();
-                string query = $@"SELECT COUNT(*) FROM TRANSPORT T
-                                INNER JOIN CARGOTRANSPORT CT ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
-                                INNER JOIN ROUTE R ON CT.ROUTE_ID = R.ROUTE_ID
-                                WHERE (R.DEPARTURE_PORT_ID NOT IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))
-                                AND (R.ARRIVAL_PORT_ID IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))";
-
-                if (period != 0)
-                {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod;";
-                }
-
-                var totalTransport = await connection.ExecuteScalarAsync<int>(query,
-                    new
-                    {
-                        ProvinceId = provinceId,
-                        selectedPeriod = period
-                    });
-
-                return totalTransport;
-            }
-        }
-
-        public async Task<int> GetTransportsToOutside(int provinceId, int period)
-        {
-            using (var connection = DBConnection.GetConnection())
-            {
-                connection.Open();
-                string query = $@"SELECT COUNT(*) FROM TRANSPORT T
-                                INNER JOIN CARGOTRANSPORT CT ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
-                                INNER JOIN ROUTE R ON CT.ROUTE_ID = R.ROUTE_ID
-                                WHERE (R.DEPARTURE_PORT_ID IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))
-                                AND (R.ARRIVAL_PORT_ID NOT IN (SELECT PORT_ID FROM port WHERE PROVINCE_ID = @ProvinceId))";
-
-                if (period != 0)
-                {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @selectedPeriod;";
-                }
-
-                var totalTransport = await connection.ExecuteScalarAsync<int>(query,
-                    new
-                    {
-                        ProvinceId = provinceId,
-                        selectedPeriod = period
-                    });
-
-                return totalTransport;
-            }
-        }
-
-
     }
 }

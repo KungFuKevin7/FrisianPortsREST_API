@@ -91,5 +91,21 @@ namespace FrisianPortsREST_API.Repositories
                 return success;
             }
         }
+
+        public async Task<List<Port>> GetPortsInProvince(int provinceId)
+        {
+            using (var connection = DBConnection.GetConnection())
+            {
+                connection.Open();
+                const string query = @$"SELECT * FROM Port
+                                    WHERE PROVINCE_ID = @ProvinceId";
+                var portsInProvince = await connection.QueryAsync<Port>(query,
+                    new
+                    {
+                        ProvinceId = provinceId
+                    });
+                return portsInProvince.ToList();
+            }
+        }
     }
 }

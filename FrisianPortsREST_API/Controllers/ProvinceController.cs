@@ -180,5 +180,25 @@ namespace FrisianPortsREST_API.Controllers
             }
 
         }
+
+        [HttpGet("ports")]
+        public async Task<IActionResult> GetPortsInProvince(int provinceId)
+        {
+            try
+            {
+                var ports = await provinceRepo.GetPortsInProvince(provinceId);
+
+                if (ports == null)
+                {
+                    return NotFound();
+                }
+                return Ok(ports);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

@@ -23,12 +23,33 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// </summary>
         /// <param name="portId">Id of requested port</param>
         /// <returns>import and export per year for requested port</returns>
-        [HttpGet("yearly-report")]
-        public async Task<IActionResult> GetYearlyReport(int portId)
+        [HttpGet("yearly-report-of-port")]
+        public async Task<IActionResult> GetYearlyReportPort(int portId)
         {
             try
             {
-                var import = await periodRepo.getYearlyReport(portId);
+                var import = await periodRepo.getYearlyReportPort(portId);
+
+                return Ok(import);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Gets import and export per year for requested port
+        /// </summary>
+        /// <param name="provinceId">Id of requested port</param>
+        /// <returns>import and export per year for requested port</returns>
+        [HttpGet("yearly-report-of-province")]
+        public async Task<IActionResult> GetYearlyReportProvince(int provinceId)
+        {
+            try
+            {
+                var import = await periodRepo.getYearlyReportProvince(provinceId);
 
                 return Ok(import);
             }
@@ -44,12 +65,12 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// </summary>
         /// <param name="portId">Id of requested port</param>
         /// <returns>List of years where data is available</returns>
-        [HttpGet("available-years")]
-        public async Task<IActionResult> GetAvailibleYears(int portId) 
+        [HttpGet("available-years-of-port")]
+        public async Task<IActionResult> GetAvailibleYearsOfPort(int portId) 
         {
             try
             {
-                var years = await periodRepo.GetAllYears(portId);
+                var years = await periodRepo.GetAllYearsOfPort(portId);
 
                 return Ok(years);
             }
@@ -59,5 +80,28 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        /// <summary>
+        /// Gets all the years, where data is available based on requested province
+        /// </summary>
+        /// <param name="provinceId">Id of requested province</param>
+        /// <returns>List of years where data is available</returns>
+        [HttpGet("available-years-of-province")]
+        public async Task<IActionResult> GetAvailibleYearsOfProvince(int provinceId)
+        {
+            try
+            {
+                var years = await periodRepo.GetAllYearsOfProvince(provinceId);
+
+                return Ok(years);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
     }
 }
