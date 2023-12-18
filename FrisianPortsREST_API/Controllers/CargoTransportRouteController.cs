@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrisianPortsREST_API.Controllers
 {
-    [Route("cargo-transport-route")]
+    [Route("api/cargo-transport-route")]
     public class CargoTransportRouteController : Controller
     {
         private readonly ILoggerService _logger;
@@ -33,18 +33,11 @@ namespace FrisianPortsREST_API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                int createdId = await cargoTransportRouteRepo.Add(cargoTransportRoute);
+                await cargoTransportRouteRepo.Add(cargoTransportRoute);
 
-                if (createdId > 0)
-                {
-                    //cargoTransportRoute.ProvinceId = createdId;
-                    return StatusCode(StatusCodes.Status201Created,
-                                      cargoTransportRoute);
-                }
-                else
-                {
-                    throw new Exception("Nothing was Added");
-                }
+
+                return StatusCode(StatusCodes.Status201Created,
+                                    cargoTransportRoute);
             }
             catch (Exception e)
             {

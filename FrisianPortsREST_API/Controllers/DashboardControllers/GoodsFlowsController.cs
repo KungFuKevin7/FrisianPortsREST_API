@@ -19,11 +19,32 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             new GoodsFlowRepository();
 
         /// <summary>
+        /// Get all flow-of-goods
+        /// </summary>
+        /// <returns>Flow Of goods available</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAllCargoTransports()
+        {
+            try
+            {
+                var cargoTransports = await goodsFlowRepo.
+                    GetAllGoodsFlows();
+
+                return Ok(cargoTransports);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        /// <summary>
         /// Get all flow-of-goods of requested port
         /// </summary>
         /// <param name="portId">Id of requested port</param>
         /// <returns>Cargotransport connected to requested port</returns>
-        [HttpGet]
+        [HttpGet("by-port")]
         public async Task<IActionResult> GetCargoTransports(int portId)
         {
             try
