@@ -99,11 +99,11 @@ namespace FrisianPortsREST_API.Repositories
             {
                 connection.Open();
 
-                const string query = $@"SELECT C.CARGO_TRANSPORT_ID,
+                const string query = $@"SELECT CT.CARGO_TRANSPORT_ID,
                                        (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = DEPARTURE_PORT_ID) AS DEPARTURE_LOCATION,
-                                       (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = ARRIVAL_PORT_ID) AS ARRIVAL_LOCATION
-                                       FROM ROUTE
-                                       INNER JOIN CARGOTRANSPORT C on ROUTE.ROUTE_ID = C.ROUTE_ID;";
+                                       (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = ARRIVAL_PORT_ID) AS ARRIVAL_LOCATION,
+                                       CT.FREQUENCY FROM ROUTE RF
+                                       INNER JOIN CARGOTRANSPORT CT ON CT.ROUTE_ID = R.ROUTE_ID";
 
                 var goodFlows = await connection.QueryAsync<GoodsFlowDto>(query);
 
