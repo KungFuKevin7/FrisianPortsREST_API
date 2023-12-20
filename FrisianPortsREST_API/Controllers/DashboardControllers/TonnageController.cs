@@ -26,11 +26,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of tonnes contributing to import of port</returns>
         [HttpGet("import-of-port")]
-        public async Task<IActionResult> GetPortImportTonnage(int portId, int period)
+        public async Task<IActionResult> GetPortImportTonnage(int portId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetPortImportTonnage(portId, period);
+                var cargo = await tonnageRepo.GetPortImportTonnage(portId, year, month);
 
                 return Ok(cargo);
             }
@@ -48,11 +48,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of tonnes contributing to export of port</returns>
         [HttpGet("export-of-port")]
-        public async Task<IActionResult> GetPortExportTonnage(int portId, int period)
+        public async Task<IActionResult> GetPortExportTonnage(int portId, int period, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetPortExportTonnage(portId, period);
+                var cargo = await tonnageRepo.GetPortExportTonnage(portId, period, month);
 
                 return Ok(cargo);
             }
@@ -70,11 +70,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of tonnes contributing to export of province</returns>
         [HttpGet("import-of-province")]
-        public async Task<IActionResult> GetImportWeightCargo(int provinceId, int period)
+        public async Task<IActionResult> GetImportWeightCargo(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetProvinceImportTonnage(provinceId, period);
+                var cargo = await tonnageRepo.GetProvinceImportTonnage(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -92,11 +92,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of tonnes contributing to export of province</returns>
         [HttpGet("export-of-province")]
-        public async Task<IActionResult> GetExportWeightCargo(int provinceId, int period)
+        public async Task<IActionResult> GetExportWeightCargo(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetProvinceExportTonnage(provinceId, period);
+                var cargo = await tonnageRepo.GetProvinceExportTonnage(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -114,11 +114,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage transported inside the province</returns>
         [HttpGet("tonnage-within-province")]
-        public async Task<IActionResult> GetTonnageInProvince(int provinceId, int period)
+        public async Task<IActionResult> GetTonnageInProvince(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetTonnageInsideProvince(provinceId, period);
+                var cargo = await tonnageRepo.GetTonnageInsideProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -136,11 +136,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage originating from outside province</returns>
         [HttpGet("import-from-outside-province")]
-        public async Task<IActionResult> GetImportFromProvince(int provinceId, int period)
+        public async Task<IActionResult> GetImportFromProvince(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetTonnageFromOutsideProvince(provinceId, period);
+                var cargo = await tonnageRepo.GetTonnageFromOutsideProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -158,11 +158,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to Filter by</param>
         /// <returns>Total Tonnage transported to outside of the province</returns>
         [HttpGet("export-to-outside-province")]
-        public async Task<IActionResult> GetExportToOutsideProvince(int provinceId, int period)
+        public async Task<IActionResult> GetExportToOutsideProvince(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetTonnageToOutsideProvince(provinceId, period);
+                var cargo = await tonnageRepo.GetTonnageToOutsideProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }

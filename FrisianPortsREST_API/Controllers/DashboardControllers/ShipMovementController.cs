@@ -26,11 +26,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the import</returns>
         [HttpGet("import-of-port")]
-        public async Task<IActionResult> GetPortImport(int portId, int period)
+        public async Task<IActionResult> GetPortImport(int portId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetImportOfPort(portId, period);
+                var cargo = await shipMovementRepo.GetImportOfPort(portId, year, month);
 
                 return Ok(cargo);
             }
@@ -48,11 +48,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the export</returns>
         [HttpGet("export-of-port")]
-        public async Task<IActionResult> GetPortExport(int portId, int period)
+        public async Task<IActionResult> GetPortExport(int portId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetExportOfPort(portId, period);
+                var cargo = await shipMovementRepo.GetExportOfPort(portId, year, month);
 
                 return Ok(cargo);
             }
@@ -70,11 +70,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the import</returns>
         [HttpGet("import-of-province")]
-        public async Task<IActionResult> GetProvinceImport(int provinceId, int period)
+        public async Task<IActionResult> GetProvinceImport(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetImportOfProvince(provinceId, period);
+                var cargo = await shipMovementRepo.GetImportOfProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -92,11 +92,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of ships contributing to the export</returns>
         [HttpGet("export-of-province")]
-        public async Task<IActionResult> GetProvinceExport(int provinceId, int period)
+        public async Task<IActionResult> GetProvinceExport(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetExportOfProvince(provinceId, period);
+                var cargo = await shipMovementRepo.GetExportOfProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -108,11 +108,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("within-province")]
-        public async Task<IActionResult> GetWithinProvince(int provinceId, int period)
+        public async Task<IActionResult> GetWithinProvince(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetTransportsInProvince(provinceId, period);
+                var cargo = await shipMovementRepo.GetTransportsInProvince(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -124,11 +124,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("to-outside-province")]
-        public async Task<IActionResult> GetExportToOutsideProvince(int provinceId, int period)
+        public async Task<IActionResult> GetExportToOutsideProvince(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetTransportsToOutside(provinceId, period);
+                var cargo = await shipMovementRepo.GetTransportsToOutside(provinceId, year, month);
 
                 return Ok(cargo);
             }
@@ -140,11 +140,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         }
 
         [HttpGet("from-outside-province")]
-        public async Task<IActionResult> GetImportFromOutside(int provinceId, int period)
+        public async Task<IActionResult> GetImportFromOutside(int provinceId, int year, int month)
         {
             try
             {
-                var cargo = await shipMovementRepo.GetTransportsImportFromOutside(provinceId, period);
+                var cargo = await shipMovementRepo.GetTransportsImportFromOutside(provinceId, year, month);
 
                 return Ok(cargo);
             }

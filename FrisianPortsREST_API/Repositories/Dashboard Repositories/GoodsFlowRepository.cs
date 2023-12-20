@@ -102,7 +102,7 @@ namespace FrisianPortsREST_API.Repositories
                 const string query = $@"SELECT CT.CARGO_TRANSPORT_ID,
                                        (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = DEPARTURE_PORT_ID) AS DEPARTURE_LOCATION,
                                        (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = ARRIVAL_PORT_ID) AS ARRIVAL_LOCATION,
-                                       CT.FREQUENCY FROM ROUTE RF
+                                       CT.FREQUENCY FROM ROUTE R
                                        INNER JOIN CARGOTRANSPORT CT ON CT.ROUTE_ID = R.ROUTE_ID";
 
                 var goodFlows = await connection.QueryAsync<GoodsFlowDto>(query);

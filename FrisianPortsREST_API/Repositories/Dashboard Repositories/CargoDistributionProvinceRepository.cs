@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using FrisianPortsREST_API.DTO;
+using System;
 
 namespace FrisianPortsREST_API.Repositories
 {
     public class CargoDistributionProvinceRepository
     {
-        public async Task<List<TransportedCargoDTO>> GetExport(int idOfProvince, int period)
+        public async Task<List<TransportedCargoDTO>> GetExport(int idOfProvince, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -21,18 +22,26 @@ namespace FrisianPortsREST_API.Repositories
                         INNER JOIN PORT P on P.PORT_ID = R.DEPARTURE_PORT_ID
                         WHERE P.PROVINCE_ID = @ProvinceId";
 
-                if (period != 0)
+                QueryBuilder queryBuilder = new QueryBuilder(query);
+
+                if (year != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @Period ";
+                    queryBuilder.AddFilter("YEAR(T.DEPARTURE_DATE) = @selectedYear");
                 }
-                query += " GROUP BY C.CARGO_TYPE_ID";
+                if (month != 0)
+                {
+                    queryBuilder.AddFilter("MONTH(T.DEPARTURE_DATE) = @selectedMonth");
+                }
+
+                queryBuilder.AddGroupByClause("C.CARGO_TYPE_ID");
                 
                 var cargo = await connection.
-                    QueryAsync<TransportedCargoDTO>(query,
+                    QueryAsync<TransportedCargoDTO>(queryBuilder.Build(),
                     new
                     {
                         ProvinceId = idOfProvince,
-                        Period = period
+                        selectedYear = year,
+                        selectedMonth = month
                     });
 
                 connection.Close();
@@ -40,7 +49,7 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
-        public async Task<List<TransportedCargoDTO>> GetImport(int idOfProvince, int period)
+        public async Task<List<TransportedCargoDTO>> GetImport(int idOfProvince, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -56,18 +65,26 @@ namespace FrisianPortsREST_API.Repositories
                         INNER JOIN PORT P on P.PORT_ID = R.ARRIVAL_PORT_ID
                         WHERE P.PROVINCE_ID = @ProvinceId";
 
-                if (period != 0)
+                QueryBuilder queryBuilder = new QueryBuilder(query);
+
+                if (year != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @Period";
+                    queryBuilder.AddFilter("YEAR(T.DEPARTURE_DATE) = @selectedYear");
                 }
-                query += " GROUP BY C.CARGO_TYPE_ID;";
+                if (month != 0)
+                {
+                    queryBuilder.AddFilter("MONTH(T.DEPARTURE_DATE) = @selectedMonth");
+                }
+
+                queryBuilder.AddGroupByClause("C.CARGO_TYPE_ID;");
 
                 var cargo = await connection.
-                    QueryAsync<TransportedCargoDTO>(query,
+                    QueryAsync<TransportedCargoDTO>(queryBuilder.Build(),
                     new
                     {
                         ProvinceId = idOfProvince,
-                        Period = period
+                        selectedYear = year,
+                        selectedMonth = month
                     });
 
                 connection.Close();

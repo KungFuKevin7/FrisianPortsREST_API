@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using FrisianPortsREST_API.DTO;
+using System;
 
 namespace FrisianPortsREST_API.Repositories
 {
     public class CargoDistributionPortRepository
     {
-        public async Task<List<TransportedCargoDTO>> GetExport(int idOfPort, int period)
+        public async Task<List<TransportedCargoDTO>> GetExport(int idOfPort, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -20,18 +21,26 @@ namespace FrisianPortsREST_API.Repositories
                     INNER JOIN CARGOTYPE CS ON C.CARGO_TYPE_ID = CS.CARGO_TYPE_ID
                     WHERE R.DEPARTURE_PORT_ID = @DeparturePort";
 
-                if (period != 0)
+                QueryBuilder queryBuilder = new QueryBuilder(query);
+
+                if (year != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @Period ";
+                    queryBuilder.AddFilter("YEAR(T.DEPARTURE_DATE) = @selectedYear");
                 }
-                query += " GROUP BY C.CARGO_TYPE_ID";
+                if (month != 0)
+                {
+                    queryBuilder.AddFilter("MONTH(T.DEPARTURE_DATE) = @selectedMonth");
+                }
+                queryBuilder.AddGroupByClause("C.CARGO_TYPE_ID");
                 
                 var cargo = await connection.
-                    QueryAsync<TransportedCargoDTO>(query,
+                    QueryAsync<TransportedCargoDTO>(
+                    queryBuilder.Build(),
                     new
                     {
                         DeparturePort = idOfPort,
-                        Period = period
+                        selectedYear = year,
+                        selectedMonth = month
                     });
 
                 connection.Close();
@@ -39,7 +48,7 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
-        public async Task<List<TransportedCargoDTO>> GetImport(int idOfPort, int period)
+        public async Task<List<TransportedCargoDTO>> GetImport(int idOfPort, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -54,18 +63,26 @@ namespace FrisianPortsREST_API.Repositories
                     INNER JOIN CARGOTYPE CS ON C.CARGO_TYPE_ID = CS.CARGO_TYPE_ID
                     WHERE R.ARRIVAL_PORT_ID = @ArrivalPort";
 
-                if (period != 0)
+                QueryBuilder queryBuilder = new QueryBuilder(query);
+
+                if (year != 0)
                 {
-                    query += " AND YEAR(T.DEPARTURE_DATE) = @Period";
+                    queryBuilder.AddFilter("YEAR(T.DEPARTURE_DATE) = @selectedYear");
                 }
-                query += " GROUP BY C.CARGO_TYPE_ID;";
+                if (month != 0)
+                {
+                    queryBuilder.AddFilter("MONTH(T.DEPARTURE_DATE) = @selectedMonth");
+                }
+                queryBuilder.AddGroupByClause("C.CARGO_TYPE_ID;");
 
                 var cargo = await connection.
-                    QueryAsync<TransportedCargoDTO>(query,
+                    QueryAsync<TransportedCargoDTO>(
+                    queryBuilder.Build(),
                     new
                     {
                         ArrivalPort = idOfPort,
-                        Period = period
+                        selectedYear = year,
+                        selectedMonth = month
                     });
 
                 connection.Close();

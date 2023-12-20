@@ -24,12 +24,12 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results</param>
         /// <returns>Various Cargotypes along with weights imported</returns>
         [HttpGet("import")]
-        public async Task<IActionResult> GetImportDistribution(int Id, int period)
+        public async Task<IActionResult> GetImportDistribution(int Id, int year, int month)
         {
             try
             {
                 var cargoDistribution = await cargoDistributionRepo.
-                    GetImport(Id, period);
+                    GetImport(Id, year, month);
 
                 if (cargoDistribution == null)
                 {
@@ -52,11 +52,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results</param>
         /// <returns>Various Cargotypes along with weights exported</returns>
         [HttpGet("export")]
-        public async Task<IActionResult> GetExportDistribution(int Id, int period)
+        public async Task<IActionResult> GetExportDistribution(int Id, int year, int month)
         {
             try
             {
-                var cargo = await cargoDistributionRepo.GetExport(Id, period);
+                var cargo = await cargoDistributionRepo.GetExport(Id, year, month);
 
                 if (cargo == null)
                 {
