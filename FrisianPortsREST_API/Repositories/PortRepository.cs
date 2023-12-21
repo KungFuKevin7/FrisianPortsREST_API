@@ -40,8 +40,8 @@ namespace FrisianPortsREST_API.Repositories
             using (var connection = DBConnection.GetConnection())
             {
                 const string query = $@"INSERT INTO Port
-                                    (PORT_NAME, PORT_LOCATION, LATITUDE, LONGITUDE)
-                                    VALUES (@PortName,@PortLocation, @Latitude, @Longitude);
+                                    (PORT_NAME, PORT_LOCATION, LATITUDE, LONGITUDE, PROVINCE_ID)
+                                    VALUES (@PortName,@PortLocation, @Latitude, @Longitude, @ProvinceId);
                                     SELECT LAST_INSERT_ID();";
 
                 int idOfCreatedItem = await connection.ExecuteScalarAsync<int>(query,
@@ -50,7 +50,8 @@ namespace FrisianPortsREST_API.Repositories
                         PortName = portToAdd.PortName,
                         PortLocation = portToAdd.PortLocation,
                         Latitude = portToAdd.Latitude,
-                        Longitude = portToAdd.Longitude
+                        Longitude = portToAdd.Longitude,
+                        ProvinceId = portToAdd.ProvinceId
                     });
                 connection.Close();
                 return idOfCreatedItem;

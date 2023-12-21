@@ -47,13 +47,51 @@ namespace FrisianPortsREST_API.Controllers
         /// Gets user based on received userId
         /// </summary>
         /// <param name="Id">Id of requested User</param>
-        /// <returns>Http Statuscode along with requested object</returns>
+        /// <returns>Http Statuscode along with requested object as UserDTO</returns>
         [HttpGet("{Id}")]   
         public async Task<IActionResult> Get(int Id)
         {
             try
             {
-                var user = await userRepo.GetById(Id); 
+                if (Id == 0) 
+                {
+                    return BadRequest();
+                }
+
+                var user = await userRepo.GetByIdToDTO(Id); 
+                
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
+        /// <summary>
+        /// Gets user based on received userId
+        /// </summary>
+        /// <param name="Id">Id of requested User</param>
+        /// <returns>Http Statuscode along with requested object as UserDTO</returns>
+        [HttpGet("exist")]
+        public IActionResult CheckUserExist(string email, string passwordInput)
+        {
+            try
+            {
+                if (email == null || passwordInput == null)
+                {
+                    return BadRequest();
+                }
+
+                var user = userRepo.ValidatePassword(email, passwordInput);
+
                 if (user == null)
                 {
                     return NotFound();

@@ -14,9 +14,9 @@ namespace FrisianPortsREST_API.Models
 
         private string? _latitude;
 
-        private string? _longitude; 
+        private string? _longitude;
 
-
+        private int _provinceId;
 
         public int PortId 
         { 
@@ -55,6 +55,13 @@ namespace FrisianPortsREST_API.Models
         {
             get { return _longitude; }
             set { _longitude = value; }
+        }
+
+        [Required]
+        public int ProvinceId
+        {
+            get { return _provinceId; }
+            set { _provinceId = value; }
         }
     }
 }
