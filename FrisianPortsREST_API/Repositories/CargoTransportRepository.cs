@@ -35,8 +35,16 @@ namespace FrisianPortsREST_API.Repositories
             using (var connection = DBConnection.GetConnection())
             {
                 connection.Open();
-                const string Query = @$"DELETE FROM CargoTransport
-                                       WHERE CARGO_TRANSPORT_ID = @CargoTransportId";
+                const string Query = @$"DELETE FROM CARGO C
+                                        WHERE C.TRANSPORT_ID IN (SELECT T.TRANSPORT_ID FROM transport T
+                                        WHERE T.CARGO_TRANSPORT_ID = @CargoTransportId);
+
+                                        DELETE FROM transport T
+                                        WHERE T.CARGO_TRANSPORT_ID = @CargoTransportId;
+
+                                        DELETE FROM cargotransport CT
+                                        WHERE CT.CARGO_TRANSPORT_ID = @CargoTransportId;
+";
 
                 int success = connection.Execute(Query,
                     new

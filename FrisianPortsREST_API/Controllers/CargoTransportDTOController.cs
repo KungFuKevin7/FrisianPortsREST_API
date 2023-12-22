@@ -57,6 +57,47 @@ namespace FrisianPortsREST_API.Controllers
                 _logger.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+
+        /// <summary>
+        /// Adds a transport and a cargo item to the database
+        /// </summary>
+        /// <param name="cargoTransport">Item that gets added to database</param>
+        /// <returns>
+        /// Corresponding Http Statuscode along with the created resource
+        /// </returns>
+        [HttpPost("transport-with-cargo/list")]
+        public async Task<IActionResult> Add([FromBody]CargoTransportDTO[] cargoTransport)
+        {
+            try
+            {
+                if (cargoTransport == null)
+                {
+                    return BadRequest();
+                }
+                if (ModelState.IsValid == false)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                int addedItems = await cargoTransportDTORepo.Add(cargoTransport);
+
+                if (addedItems > 0)
+                {
+                    //cargoTransport[0].CargoTransportId = createdId;
+                    return StatusCode(StatusCodes.Status201Created, cargoTransport);
+                }
+                else
+                {
+                    throw new Exception("Nothing was added");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
         }
     }

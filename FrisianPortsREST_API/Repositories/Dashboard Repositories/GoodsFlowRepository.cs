@@ -82,7 +82,7 @@ namespace FrisianPortsREST_API.Repositories
                                     WHERE CT.CARGO_TRANSPORT_ID = @cargoTransportId
                                     GROUP BY R.ROUTE_ID";
 
-                var goodFlows = await connection.QuerySingleAsync<GoodsFlowDto>(query,
+                var goodFlows = await connection.QuerySingleOrDefaultAsync<GoodsFlowDto>(query,
                     new
                     {
                         cargoTransportId = cargoTransportId
