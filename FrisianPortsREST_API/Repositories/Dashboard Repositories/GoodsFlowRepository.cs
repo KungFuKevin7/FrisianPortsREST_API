@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FrisianPortsREST_API.DTO;
 using FrisianPortsREST_API.Models;
+using System.Text.RegularExpressions;
 
 namespace FrisianPortsREST_API.Repositories
 {
@@ -8,6 +9,36 @@ namespace FrisianPortsREST_API.Repositories
     {
 
         public async Task<List<GoodsFlowDto>> GetGoodsFlows(string searchQuery)
+        {
+            using (var connection = DBConnection.GetConnection())
+            {
+
+                string dbQuery = $@"SELECT
+                                    CT.CARGO_TRANSPORT_ID,
+                                    (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.DEPARTURE_PORT_ID)  DEPARTURE_LOCATION,
+                                    (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.ARRIVAL_PORT_ID) ARRIVAL_LOCATION,
+                                     CT.FREQUENCY,
+                                     SUM(WEIGHT_IN_TONNES) AS TOTAL_WEIGHT FROM Route R
+                                    INNER JOIN CARGOTRANSPORT CT ON CT.ROUTE_ID = R.ROUTE_ID
+                                    INNER JOIN TRANSPORT T ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
+                                    INNER JOIN CARGO C ON C.TRANSPORT_ID = T.TRANSPORT_ID
+                                    WHERE (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.DEPARTURE_PORT_ID) LIKE @Query
+                                    OR (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.ARRIVAL_PORT_ID) LIKE @Query";
+
+                QueryBuilder queryBuilder = new QueryBuilder(dbQuery);
+                queryBuilder.AddGroupByClause("CT.CARGO_TRANSPORT_ID");
+
+                var results = await connection.QueryAsync<GoodsFlowDto>(dbQuery,
+                    new
+                    {
+                        Query = $"%{searchQuery}%"
+                    });
+
+                return results.ToList();
+            }
+        }
+
+        public async Task<List<GoodsFlowDto>> GetGoodsFlows(string searchQuery, string[] filters)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -20,17 +51,31 @@ namespace FrisianPortsREST_API.Repositories
                                     INNER JOIN CARGOTRANSPORT CT ON CT.ROUTE_ID = R.ROUTE_ID
                                     INNER JOIN TRANSPORT T ON T.CARGO_TRANSPORT_ID = CT.CARGO_TRANSPORT_ID
                                     INNER JOIN CARGO C ON C.TRANSPORT_ID = T.TRANSPORT_ID
-                                    WHERE (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.DEPARTURE_PORT_ID) LIKE @Query
-                                    OR (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.ARRIVAL_PORT_ID) LIKE @Query
-                                    GROUP BY CT.CARGO_TRANSPORT_ID";
+                                    WHERE (
+                                            (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.DEPARTURE_PORT_ID) LIKE @SearchQuery
+                                            OR (SELECT PORT_LOCATION FROM PORT WHERE Port_ID = R.ARRIVAL_PORT_ID) LIKE @SearchQuery
+                                        )
+                                    AND (SELECT PROVINCE_NAME FROM PROVINCE WHERE PROVINCE_ID =
+                                            (SELECT PROVINCE_ID FROM Port WHERE PORT_ID = R.DEPARTURE_PORT_ID)) IN @Filters OR
+                                          (SELECT PROVINCE_NAME FROM PROVINCE WHERE PROVINCE_ID =
+                                            (SELECT PROVINCE_ID FROM Port WHERE PORT_ID = R.ARRIVAL_PORT_ID)) IN @Filters";
 
-                searchQuery = $"%{searchQuery}%";
+                QueryBuilder queryBuilder = new QueryBuilder(dbQuery);
+                queryBuilder.AddGroupByClause("CT.CARGO_TRANSPORT_ID");
 
                 var results = await connection.QueryAsync<GoodsFlowDto>(dbQuery,
                     new
                     {
-                        Query = searchQuery
+                        SearchQuery = $"%{searchQuery}%",
+                        Filters = filters
                     });
+
+                if (results.ElementAt(0).CargoTransportId == 0) //In some cases, Dapper returns a list with an empty object
+                {
+                    var empty = results.ToList();
+                    empty.Clear();
+                    return empty;
+                }
 
                 return results.ToList();
             }

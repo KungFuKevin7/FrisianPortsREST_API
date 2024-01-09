@@ -120,6 +120,7 @@ namespace FrisianPortsREST_API.Controllers
 
         /// <summary>
         /// Deletes an Item from the database based on the corresponding Id
+        /// Plus it will delete all the items with the given Id as cargotransportId
         /// </summary>
         /// <param name="Id">Id of the item that should be deleted</param>
         /// <returns>Http Statuscode based on the status of the request</returns>

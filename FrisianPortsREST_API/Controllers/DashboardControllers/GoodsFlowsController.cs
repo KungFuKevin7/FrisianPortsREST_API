@@ -1,6 +1,7 @@
 ﻿using FrisianPortsREST_API.Error_Logger;
 using FrisianPortsREST_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
 
 namespace FrisianPortsREST_API.Controllers.DashboardControllers
 {
@@ -66,7 +67,7 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// </summary>
         /// <param name="query">Search query</param>
         /// <returns>Flow-of-goods matching parts of the query</returns>
-        [HttpGet("name")]
+        [HttpGet("search")]
         public async Task<IActionResult> GetWithSearch(string query)
         {
             try
@@ -75,6 +76,34 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
                     GetGoodsFlows(query);
 
                 return Ok(cargoTransports);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Get all flow-of-goods based on search query
+        /// </summary>
+        /// <param name="query">Search query</param>
+        /// <returns>Flow-of-goods matching parts of the query</returns>
+        [HttpGet("search/filtered")]
+        public async Task<IActionResult> GetWithSearchAndFilter(string query, string[] provinces)
+        {
+            try
+            {
+                var cargoTransports = await goodsFlowRepo.
+                    GetGoodsFlows(query, provinces);
+                if (cargoTransports == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(cargoTransports);
+                }
             }
             catch (Exception e)
             {

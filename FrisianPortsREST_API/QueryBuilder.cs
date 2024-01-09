@@ -21,6 +21,7 @@
             }
             return this;
         }
+
         public QueryBuilder AddGroupByClause(string groupByClause)
         {
             _query += $" GROUP BY {groupByClause}";

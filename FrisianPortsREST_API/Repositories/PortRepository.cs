@@ -108,12 +108,10 @@ namespace FrisianPortsREST_API.Repositories
                               WHERE Port_Name LIKE @Query
                               OR    Port_Location LIKE @Query";
                 
-                searchQuery = $"%{searchQuery}%";
-
                 var portResults = await connection.QueryAsync<Port>(dbQuery,
                     new
                     {
-                        Query = searchQuery
+                        Query = $"%{searchQuery}%"
                     });
 
                 return portResults.ToList();
@@ -130,12 +128,10 @@ namespace FrisianPortsREST_API.Repositories
                                  OR    Port.PORT_NAME LIKE @Query)
                                  AND Pro.PROVINCE_NAME IN @Filter";
 
-                searchQuery = $"%{searchQuery}%";
-
                 var portResult = await connection.QueryAsync<Port>(dbQuery,
                 new
                 {
-                    Query = searchQuery,
+                    Query = $"%{searchQuery}%",
                     Filter = filters
                 });
 
