@@ -118,7 +118,6 @@ namespace FrisianPortsREST_API.Repositories
                         dataOfYear.Transported.Add(
                             new TransportedCargoDTO("Export", 0));
 
-
                         yearlyTransportDTOs.Add(dataOfYear);
                     }
                 }

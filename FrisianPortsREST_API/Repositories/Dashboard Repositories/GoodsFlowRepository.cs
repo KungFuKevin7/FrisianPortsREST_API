@@ -28,11 +28,16 @@ namespace FrisianPortsREST_API.Repositories
                 QueryBuilder queryBuilder = new QueryBuilder(dbQuery);
                 queryBuilder.AddGroupByClause("CT.CARGO_TRANSPORT_ID");
 
-                var results = await connection.QueryAsync<GoodsFlowDto>(dbQuery,
+                var results = await connection.QueryAsync<GoodsFlowDto>(queryBuilder.Build(),
                     new
                     {
-                        Query = $"%{searchQuery}%"
+                        Query = $"%{searchQuery}%",
                     });
+
+      /*          if (results.ElementAt(0).CargoTransportId == 0) //In some cases, Dapper returns a list with an empty object
+                {
+                    return new List<GoodsFlowDto>();
+                }*/
 
                 return results.ToList();
             }
@@ -63,19 +68,17 @@ namespace FrisianPortsREST_API.Repositories
                 QueryBuilder queryBuilder = new QueryBuilder(dbQuery);
                 queryBuilder.AddGroupByClause("CT.CARGO_TRANSPORT_ID");
 
-                var results = await connection.QueryAsync<GoodsFlowDto>(dbQuery,
+                var results = await connection.QueryAsync<GoodsFlowDto>(queryBuilder.Build(),
                     new
                     {
                         SearchQuery = $"%{searchQuery}%",
                         Filters = filters
                     });
-
+/*
                 if (results.ElementAt(0).CargoTransportId == 0) //In some cases, Dapper returns a list with an empty object
                 {
-                    var empty = results.ToList();
-                    empty.Clear();
-                    return empty;
-                }
+                    return new List<GoodsFlowDto>();
+                }*/
 
                 return results.ToList();
             }
@@ -136,7 +139,6 @@ namespace FrisianPortsREST_API.Repositories
                 return goodFlows;
             }
         }
-
 
         public async Task<List<GoodsFlowDto>> GetAllGoodsFlows()
         {

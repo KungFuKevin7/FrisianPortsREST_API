@@ -48,11 +48,11 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="period">Period to filter results (Year)</param>
         /// <returns>Number of tonnes contributing to export of port</returns>
         [HttpGet("export-of-port")]
-        public async Task<IActionResult> GetPortExportTonnage(int portId, int period, int month)
+        public async Task<IActionResult> GetPortExportTonnage(int portId, int year, int month)
         {
             try
             {
-                var cargo = await tonnageRepo.GetPortExportTonnage(portId, period, month);
+                var cargo = await tonnageRepo.GetPortExportTonnage(portId, year, month);
 
                 return Ok(cargo);
             }
