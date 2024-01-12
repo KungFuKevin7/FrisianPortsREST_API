@@ -1,6 +1,6 @@
 ﻿namespace FrisianPortsREST_API
 {
-    public class QueryBuilder
+    public class QueryBuilder : IBuilder<QueryBuilder>
     {
         private string _query;
 
@@ -25,6 +25,12 @@
         public QueryBuilder AddGroupByClause(string groupByClause)
         {
             _query += $" GROUP BY {groupByClause}";
+            return this;
+        }
+
+        public QueryBuilder AddOrderByClause(string orderByClause) 
+        {
+            _query += $"ORDER BY {orderByClause}";
             return this;
         }
 
