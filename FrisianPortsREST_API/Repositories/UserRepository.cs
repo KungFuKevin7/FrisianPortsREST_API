@@ -136,6 +136,11 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
+        /// <summary>
+        /// Check If email is in use
+        /// </summary>
+        /// <param name="emailInput">Email provided</param>
+        /// <returns>User with corresponding email</returns>
         public async Task<Users> ValidateUser(string emailInput)
         {
             using (var connection = DBConnection.GetConnection())
@@ -154,6 +159,13 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
+        /// <summary>
+        /// Check whether User exists
+        /// and whether the combination of email and password is correct
+        /// </summary>
+        /// <param name="email">email provided by the user</param>
+        /// <param name="passwordInput">password provided by the user</param>
+        /// <returns>User if exists</returns>
         public UserDto ValidatePassword(string email, string passwordInput) 
         {
             var userInDatabase = ValidateUser(email);
@@ -172,6 +184,11 @@ namespace FrisianPortsREST_API.Repositories
             }
         }
 
+        /// <summary>
+        /// Encrypt password using SHA
+        /// </summary>
+        /// <param name="input">Password input</param>
+        /// <returns>Encrypted input</returns>
         public string HashPassword(string input) 
         {
             var key = ConfigurationManager.AppSettings["shaKey"];
@@ -181,6 +198,11 @@ namespace FrisianPortsREST_API.Repositories
             return Convert.ToBase64String(encodedPassword);
         }
 
+        /// <summary>
+        /// Convert User to DTO to hide private information
+        /// </summary>
+        /// <param name="originalUser">User to be converted</param>
+        /// <returns>User without password</returns>
         public UserDto ConvertToUserDTO(Users originalUser) 
         {
             UserDto user = new UserDto();

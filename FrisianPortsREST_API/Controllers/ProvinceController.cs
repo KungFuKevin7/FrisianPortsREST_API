@@ -180,6 +180,12 @@ namespace FrisianPortsREST_API.Controllers
             }
 
         }
+        
+        /// <summary>
+        /// Get all Ports within a province
+        /// </summary>
+        /// <param name="provinceId">Id of province to filter ports by</param>
+        /// <returns>Corresponding Http StatusCode along with items found</returns>
 
         [HttpGet("ports")]
         public async Task<IActionResult> GetPortsInProvince(int provinceId)

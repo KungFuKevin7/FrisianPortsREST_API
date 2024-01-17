@@ -21,7 +21,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets the import cargo distribution of a port
         /// </summary>
         /// <param name="portId">Id of requested port</param>
-        /// <param name="period">Period to filter results</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Various Cargotypes along with weights imported</returns>
         [HttpGet("import")]
         public async Task<IActionResult> GetImportDistribution(int portId, int year, int month)
@@ -49,7 +50,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets the export cargo distribution of a port
         /// </summary>
         /// <param name="portId">Id of requested port</param>
-        /// <param name="period">Period to filter results</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Various Cargotypes along with weights exported</returns>
         [HttpGet("export")]
         public async Task<IActionResult> GetExportDistribution(int portId, int year, int month)

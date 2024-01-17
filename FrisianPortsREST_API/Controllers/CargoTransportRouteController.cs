@@ -19,6 +19,13 @@ namespace FrisianPortsREST_API.Controllers
         CargoTransportRouteRepository cargoTransportRouteRepo =
             new CargoTransportRouteRepository();
 
+        /// <summary>
+        /// Adds a CargoTransport Item as well as a Route Item to the database
+        /// </summary>
+        /// <param name="cargoTransportRoute">
+        /// Cargotransport and route combination to add to the database
+        /// </param>
+        /// <returns>Corresponding HttpStatus</returns>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]CargoTransportRouteDTO cargoTransportRoute) 
         {

@@ -23,7 +23,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets amount of ships contributing to the import of requested port
         /// </summary>
         /// <param name="portId">Id of requested port</param>
-        /// <param name="period">Period to filter results (Year)</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Number of ships contributing to the import</returns>
         [HttpGet("import-of-port")]
         public async Task<IActionResult> GetPortImport(int portId, int year, int month)
@@ -45,7 +46,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets amount of ships contributing to the export of requested port
         /// </summary>
         /// <param name="portId">Id of requested port</param>
-        /// <param name="period">Period to filter results (Year)</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Number of ships contributing to the export</returns>
         [HttpGet("export-of-port")]
         public async Task<IActionResult> GetPortExport(int portId, int year, int month)
@@ -67,7 +69,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets amount of ships contributing to the import of requested province
         /// </summary>
         /// <param name="provinceId">Id of requested province</param>
-        /// <param name="period">Period to filter results (Year)</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Number of ships contributing to the import</returns>
         [HttpGet("import-of-province")]
         public async Task<IActionResult> GetProvinceImport(int provinceId, int year, int month)
@@ -89,7 +92,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// Gets amount of ships contributing to the export of requested province
         /// </summary>
         /// <param name="provinceId">Id of requested province</param>
-        /// <param name="period">Period to filter results (Year)</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
         /// <returns>Number of ships contributing to the export</returns>
         [HttpGet("export-of-province")]
         public async Task<IActionResult> GetProvinceExport(int provinceId, int year, int month)
@@ -107,6 +111,16 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets amount of ships transporting cargo within province
+        /// </summary>
+        /// <param name="provinceId">Id of requested province</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
+        /// <returns>
+        /// Number of ships contributing to transport
+        /// within requested province
+        /// </returns>
         [HttpGet("within-province")]
         public async Task<IActionResult> GetWithinProvince(int provinceId, int year, int month)
         {
@@ -123,6 +137,16 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets amount of ships transporting cargo to outside the province
+        /// </summary>
+        /// <param name="provinceId">Id of requested province</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
+        /// <returns>
+        /// Number of ships contributing to transport
+        /// to outside the province
+        /// </returns>
         [HttpGet("to-outside-province")]
         public async Task<IActionResult> GetExportToOutsideProvince(int provinceId, int year, int month)
         {
@@ -139,6 +163,17 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
             }
         }
 
+        /// <summary>
+        /// Gets amount of ships transporting cargo from outside the province
+        /// towards the requested province
+        /// </summary>
+        /// <param name="provinceId">Id of requested province</param>
+        /// <param name="year">year to filter results by</param>
+        /// <param name="month">month to filter results by</param>
+        /// <returns>
+        /// Number of ships contributing to transport
+        /// from outside the province to the requested province
+        /// </returns>
         [HttpGet("from-outside-province")]
         public async Task<IActionResult> GetImportFromOutside(int provinceId, int year, int month)
         {
