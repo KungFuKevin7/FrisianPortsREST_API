@@ -6,9 +6,9 @@ namespace FrisianPortsREST_API.Models
     {
         private int _transportId;
 
-        private int? _cargoTransportId;
+        private int _cargoTransportId;
 
-        private DateTime? _departureDate;
+        private DateTime _departureDate;
 
 
         public int TransportId 
@@ -18,14 +18,14 @@ namespace FrisianPortsREST_API.Models
         }
 
         [Required]
-        public int? CargoTransportId
+        public int CargoTransportId
         {
             get { return _cargoTransportId; }
             set { _cargoTransportId = value; }
         }
 
         [Required]
-        public DateTime? DepartureDate
+        public DateTime DepartureDate
         {
             get { return _departureDate; }
             set { _departureDate = value; }
