@@ -14,6 +14,8 @@ namespace FrisianPortsREST_API.Models
 
         private int? _transportId;
 
+        private string? _source;
+
 
         public int CargoId 
         {
@@ -48,5 +50,12 @@ namespace FrisianPortsREST_API.Models
             get { return _transportId; }
             set { _transportId = value; }
         }
+
+        public string Source
+        {
+            get { return _source; }
+            set { _source = value; }
+        }
+
     }
 }

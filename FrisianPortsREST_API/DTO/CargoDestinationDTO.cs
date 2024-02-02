@@ -5,5 +5,6 @@
         public string Location { get; set; }
 
         public int ShipAmount { get; set; }
+
     }
 }

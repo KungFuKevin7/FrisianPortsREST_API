@@ -26,8 +26,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="year">year to filter results by</param>
         /// <param name="month">month to filter results by</param>
         /// <returns>Various Cargotypes along with weights imported</returns>
-        [HttpGet("export")]
-        public async Task<IActionResult> ShipExport(int portId, int year, int month)
+        [HttpGet("import")]
+        public async Task<IActionResult> ShipImport(int portId, int year, int month)
         {
             try
             {
@@ -56,8 +56,8 @@ namespace FrisianPortsREST_API.Controllers.DashboardControllers
         /// <param name="year">year to filter results by</param>
         /// <param name="month">month to filter results by</param>
         /// <returns>Various Cargotypes along with weights imported</returns>
-        [HttpGet("import")]
-        public async Task<IActionResult> ShipImport(int portId, int year, int month)
+        [HttpGet("export")]
+        public async Task<IActionResult> ShipExport(int portId, int year, int month)
         {
             try
             {

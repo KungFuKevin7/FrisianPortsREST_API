@@ -5,7 +5,7 @@ namespace FrisianPortsREST_API.Repositories.Dashboard_Repositories
 {
     public class CargoDestinationRepository
     {
-        public async Task<List<CargoDestinationDTO>> GetImportShips(int idOfPort, int year, int month)
+        public async Task<List<CargoDestinationDTO>> GetExportShips(int idOfPort, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
@@ -48,7 +48,7 @@ namespace FrisianPortsREST_API.Repositories.Dashboard_Repositories
             }
         }
 
-        public async Task<List<CargoDestinationDTO>> GetExportShips(int idOfPort, int year, int month)
+        public async Task<List<CargoDestinationDTO>> GetImportShips(int idOfPort, int year, int month)
         {
             using (var connection = DBConnection.GetConnection())
             {
